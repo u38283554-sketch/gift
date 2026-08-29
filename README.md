@@ -1,11 +1,46 @@
-<div align="center">
+# Akshara Ke Liye Ek Raaz ✨
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+A personalized, interactive mystery gift and clues experience.
 
-  <h1>Built with AI Studio</h2>
+---
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+## 🚀 How to Deploy on GitHub Pages
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+You have two easy ways to deploy this website on GitHub:
 
-</div>
+### Option 1: Automatic Deployment with GitHub Actions (Recommended)
+
+1. **Export or Push to GitHub**:
+   - In Google AI Studio, click on **Settings / Export** and choose **Export to GitHub** (or push this repository to a new GitHub repo).
+2. **Enable GitHub Pages in Repository Settings**:
+   - Go to your repository on GitHub: `https://github.com/<your-username>/<your-repo-name>`
+   - Click **Settings** (tab at the top).
+   - In the left sidebar, click **Pages** (under the "Code and automation" section).
+   - Under **Build and deployment** > **Source**, select **GitHub Actions**.
+3. **Trigger Deployment**:
+   - The included `.github/workflows/deploy.yml` workflow will automatically run on push to `main` (or you can trigger it manually from the **Actions** tab).
+   - Once completed, your live site URL will be displayed in **Settings > Pages**!
+
+---
+
+### Option 2: Deploy Standalone Single File (`akshara-mystery-gift.html`)
+
+If you want a zero-dependency static page:
+1. Rename `akshara-mystery-gift.html` to `index.html` (if deploying standalone HTML without Vite).
+2. In GitHub repository **Settings > Pages**, set **Source** to `Deploy from a branch` -> `main` / `/ (root)`.
+3. Save, and your page is immediately live.
+
+---
+
+## 🛠️ Local Development
+
+```bash
+# Install dependencies
+npm install
+
+# Run local development server
+npm run dev
+
+# Build production bundle
+npm run build
+```

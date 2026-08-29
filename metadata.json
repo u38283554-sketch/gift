@@ -1,0 +1,6 @@
+{
+  "name": "Akshara Ke Liye Ek Raaz",
+  "description": "Akshara ke liye ek raaz aur surprise mystery gift experience.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

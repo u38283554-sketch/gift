@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Akshara Ke Liye Ek Raaz ✨</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600;1,700&family=Poppins:wght@300;400;500;600&family=Space+Mono&display=swap" rel="stylesheet">
+<!--
+============================================================
+ CUSTOMIZE KAREIN — sab jagah "EDIT HERE" dhoondo (Ctrl+F)
+ 1. Puzzle questions/answers -> JS section me PUZZLES array
+ 2. Photos -> "EDIT HERE: PHOTOS" section (img src replace karo)
+ 3. Final letter -> "EDIT HERE: FINAL LETTER" section
+ 4. Naam / occasion -> jahan "Akshara" likha hai
+============================================================
+-->
+<style>
+:root{
+--bg-deep:#170b2e;
+--bg-nebula:#2d1250;
+--pink:#ff5fa2;
+--purple:#a855f7;
+--gold:#ffd166;
+--text-light:#f8ecff;
+--text-dim:#c9b6e0;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{
+height:100%;
+background:var(--bg-deep);
+color:var(--text-light);
+font-family:'Poppins',sans-serif;
+overflow-x:hidden;
+}
+body{
+background:
+radial-gradient(ellipse at 20% 20%, rgba(168,85,247,0.35), transparent 55%),
+radial-gradient(ellipse at 80% 70%, rgba(255,95,162,0.28), transparent 55%),
+radial-gradient(ellipse at 50% 100%, rgba(45,18,80,0.9), transparent 70%),
+var(--bg-deep);
+}
+#stars-canvas{
+position:fixed;
+inset:0;
+z-index:0;
+pointer-events:none;
+}
+h1,h2,h3, .display{
+font-family:'Playfair Display', serif;
+font-style:italic;
+font-weight:700;
+}
+.eyebrow{
+font-family:'Space Mono', monospace;
+letter-spacing:0.25em;
+text-transform:uppercase;
+font-size:0.7rem;
+color:var(--gold);
+}
+/* progress constellation */
+#progress{
+position:fixed;
+top:22px;
+left:50%;
+transform:translateX(-50%);
+z-index:20;
+display:flex;
+align-items:center;
+gap:10px;
+}
+.p-dot{
+width:12px;height:12px;border-radius:50%;
+background:rgba(255,255,255,0.15);
+border:1px solid rgba(255,255,255,0.3);
+transition:all .5s ease;
+position:relative;
+}
+.p-dot.done{
+background:radial-gradient(circle, var(--gold), var(--pink));
+box-shadow:0 0 12px var(--gold);
+border-color:transparent;
+}
+.p-line{
+width:28px;height:2px;
+background:rgba(255,255,255,0.15);
+position:relative;
+overflow:hidden;
+}
+.p-line i{
+position:absolute; inset:0;
+background:linear-gradient(90deg,var(--pink),var(--gold));
+transform:scaleX(0);
+transform-origin:left;
+transition:transform .7s ease;
+}
+.p-line.done i{transform:scaleX(1);}
+main{
+position:relative;
+z-index:5;
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:100px 20px 40px;
+}
+.scene{
+display:none;
+width:100%;
+max-width:560px;
+text-align:center;
+animation:fadeUp .8s ease both;
+}
+.scene.active{display:block;}
+@keyframes fadeUp{
+from{opacity:0; transform:translateY(24px);}
+to{opacity:1; transform:translateY(0);}
+}
+/* ---------- Gift box (CSS 3D) ---------- */
+.box-stage{
+perspective:900px;
+width:180px;height:180px;
+margin:0 auto 36px;
+}
+.box3d{
+width:100%;height:100%;
+position:relative;
+transform-style:preserve-3d;
+animation:floatBox 4.5s ease-in-out infinite;
+cursor:pointer;
+}
+@keyframes floatBox{
+0%,100%{transform:rotateY(-25deg) rotateX(8deg) translateY(0);}
+50%{transform:rotateY(25deg) rotateX(8deg) translateY(-14px);}
+}
+.face{
+position:absolute;
+width:140px;height:140px;
+left:20px;top:20px;
+background:linear-gradient(135deg,var(--pink),var(--purple));
+border:1px solid rgba(255,255,255,0.35);
+box-shadow:inset 0 0 30px rgba(255,255,255,0.15);
+}
+.face.front{transform:translateZ(70px);}
+.face.back{transform:translateZ(-70px) rotateY(180deg);}
+.face.right{transform:rotateY(90deg) translateZ(70px);}
+.face.left{transform:rotateY(-90deg) translateZ(70px);}
+.face.top{
+transform:rotateX(90deg) translateZ(70px);
+background:linear-gradient(135deg,var(--gold),var(--pink));
+}
+.face.bottom{transform:rotateX(-90deg) translateZ(70px);}
+.ribbon-v{
+position:absolute; left:50%; top:0; bottom:0; width:18px; margin-left:-9px;
+background:rgba(255,255,255,0.55);
+}
+.ribbon-h{
+position:absolute; top:50%; left:0; right:0; height:18px; margin-top:-9px;
+background:rgba(255,255,255,0.55);
+}
+.btn{
+font-family:'Space Mono', monospace;
+font-size:0.85rem;
+letter-spacing:0.05em;
+text-transform:uppercase;
+background:linear-gradient(90deg,var(--pink),var(--purple));
+color:#fff;
+border:none;
+padding:14px 30px;
+border-radius:40px;
+cursor:pointer;
+box-shadow:0 6px 24px rgba(255,95,162,0.4);
+transition:transform .2s ease, box-shadow .2s ease;
+}
+.btn:hover{transform:translateY(-2px); box-shadow:0 10px 30px rgba(255,95,162,0.55);}
+.btn:focus-visible{outline:2px solid var(--gold); outline-offset:3px;}
+.btn:disabled{opacity:0.4; cursor:not-allowed; transform:none;}
+p.lede{
+color:var(--text-dim);
+font-size:1rem;
+line-height:1.7;
+margin:14px auto 28px;
+max-width:440px;
+}
+/* ---------- puzzle card ---------- */
+.card{
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.15);
+backdrop-filter:blur(6px);
+border-radius:20px;
+padding:34px 26px;
+}
+.options{
+display:flex;
+flex-direction:column;
+gap:12px;
+margin-top:22px;
+}
+.opt{
+font-family:'Poppins',sans-serif;
+background:rgba(255,255,255,0.06);
+border:1px solid rgba(255,255,255,0.2);
+color:var(--text-light);
+padding:13px 18px;
+border-radius:14px;
+cursor:pointer;
+text-align:left;
+font-size:0.95rem;
+transition:all .25s ease;
+}
+.opt:hover{border-color:var(--pink); background:rgba(255,95,162,0.12);}
+.opt:focus-visible{outline:2px solid var(--gold);}
+.opt.correct{background:rgba(120,255,180,0.18); border-color:#8ffcb0;}
+.opt.wrong{background:rgba(255,90,90,0.18); border-color:#ff8a8a;}
+.hint{
+margin-top:16px;
+font-size:0.85rem;
+color:var(--gold);
+min-height:20px;
+}
+/* stars mini-game (puzzle 3) */
+.star-field{
+position:relative;
+width:100%;
+height:220px;
+margin-top:20px;
+border:1px dashed rgba(255,255,255,0.2);
+border-radius:16px;
+}
+.star-target{
+position:absolute;
+width:34px;height:34px;
+display:flex;align-items:center;justify-content:center;
+font-size:1.3rem;
+cursor:pointer;
+filter:drop-shadow(0 0 6px rgba(255,255,255,0.4));
+transition:transform .2s ease;
+}
+.star-target:hover{transform:scale(1.25);}
+.star-target.hit{opacity:0.25; pointer-events:none;}
+/* ---------- final reveal ---------- */
+#scene-final .box3d{animation:none; transform:rotateY(-20deg) rotateX(6deg);}
+#scene-final .face.top{
+transition:transform 1s ease;
+transform:rotateX(90deg) translateZ(70px);
+}
+#scene-final.opened .face.top{
+transform:rotateX(200deg) translateZ(70px);
+}
+.burst{
+position:absolute; inset:-60px;
+background:radial-gradient(circle, rgba(255,214,102,0.7), transparent 60%);
+opacity:0;
+transition:opacity .6s ease;
+pointer-events:none;
+}
+#scene-final.opened .burst{opacity:1;}
+.letter{
+text-align:left;
+font-size:1rem;
+line-height:1.9;
+color:var(--text-light);
+margin-top:10px;
+white-space:pre-line;
+}
+.gallery{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:16px;
+margin:26px 0;
+}
+.prank-card{
+margin:26px 0;
+min-height:150px;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+text-align:center;
+}
+.prank-spinner{
+font-size:2rem;
+animation:spin 1.2s linear infinite;
+}
+@keyframes spin{ to{ transform:rotate(360deg);} }
+.prank-avatar{
+font-size:2.6rem;
+margin-bottom:8px;
+}
+.prank-name{
+font-family:'Space Mono', monospace;
+font-size:0.8rem;
+color:var(--gold);
+margin-bottom:6px;
+}
+.prank-msg{
+font-size:1rem;
+color:var(--text-light);
+line-height:1.6;
+margin-bottom:16px;
+}
+.prank-shake{
+animation:shake 0.4s ease;
+}
+@keyframes shake{
+0%,100%{transform:translateX(0);}
+25%{transform:translateX(-6px);}
+75%{transform:translateX(6px);}
+}
+.polaroid{
+background:#fff;
+padding:10px 10px 26px;
+border-radius:6px;
+transform:rotate(var(--r,-3deg));
+box-shadow:0 10px 22px rgba(0,0,0,0.35);
+}
+.polaroid:nth-child(2){--r:3deg;}
+.polaroid:nth-child(3){--r:2deg;}
+.polaroid:nth-child(4){--r:-2deg;}
+.polaroid img{
+width:100%;
+aspect-ratio:1/1;
+object-fit:cover;
+display:block;
+border-radius:2px;
+background:linear-gradient(135deg,#e9d5ff,#fbcfe8);
+}
+.polaroid .ph-slot{
+width:100%;
+aspect-ratio:1/1;
+border-radius:2px;
+background:linear-gradient(135deg,#e9d5ff,#fbcfe8);
+display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+gap:6px;
+color:#a855f7;
+font-family:'Space Mono', monospace;
+font-size:0.65rem;
+text-align:center;
+}
+.polaroid .ph-slot span.icon{font-size:1.4rem;}
+.polaroid span{
+display:block;
+text-align:center;
+color:#555;
+font-family:'Space Mono', monospace;
+font-size:0.7rem;
+margin-top:8px;
+}
+.confetti{
+position:fixed;
+top:-10px;
+z-index:30;
+border-radius:2px;
+pointer-events:none;
+animation:fall linear forwards;
+}
+@keyframes fall{
+to{ transform:translateY(110vh) rotate(540deg); opacity:0.9;}
+}
+footer.note{
+margin-top:30px;
+font-size:0.75rem;
+color:rgba(255,255,255,0.35);
+}
+@media (prefers-reduced-motion: reduce){
+.box3d{animation:none;}
+.scene{animation:none;}
+}
+@media (max-width:480px){
+.gallery{grid-template-columns:1fr 1fr; gap:10px;}
+.card{padding:26px 18px;}
+}
+</style>
+</head>
+<body>
+<canvas id="stars-canvas"></canvas>
+<div id="progress" aria-hidden="true">
+ <div class="p-dot" data-dot="0"></div>
+ <div class="p-line" data-line="0"><i></i></div>
+ <div class="p-dot" data-dot="1"></div>
+ <div class="p-line" data-line="1"><i></i></div>
+ <div class="p-dot" data-dot="2"></div>
+ <div class="p-line" data-line="2"><i></i></div>
+ <div class="p-dot" data-dot="3"></div>
+</div>
+<main>
+ <!-- SCENE 0 : INTRO -->
+ <section class="scene active" id="scene-intro">
+ <div class="eyebrow">Ek raaz hai tumhare liye</div>
+ <div class="box-stage">
+ <div class="box3d" id="introBox">
+ <div class="face front"><div class="ribbon-v"></div><div class="ribbon-h"></div></div>
+ <div class="face back"><div class="ribbon-v"></div><div class="ribbon-h"></div></div>
+ <div class="face right"><div class="ribbon-v"></div><div class="ribbon-h"></div></div>
+ <div class="face left"><div class="ribbon-v"></div><div class="ribbon-h"></div></div>
+ <div class="face top"><div class="ribbon-v"></div><div class="ribbon-h"></div></div>
+ <div class="face bottom"><div class="ribbon-v"></div><div class="ribbon-h"></div></div>
+ </div>
+ </div>
+ <h1 class="display" style="font-size:2rem;">Akshara, ek raaz hai tumhare liye…</h1>
+ <p class="lede">Is mystery ko suljhao, teen chhote clues paar karo, aur ek surprise tumhara intezaar kar raha hai. Taiyaar ho?</p>
+ <button class="btn" onclick="goTo('scene-puzzle1'); updateProgress(1);">Raaz Suljhao →</button>
+ </section>
+ <!-- SCENE 1 : PUZZLE 1 -->
+ <section class="scene" id="scene-puzzle1">
+ <div class="eyebrow">Clue 01 / 03</div>
+ <div class="card">
+ <!-- EDIT HERE: PUZZLE 1 question/options in the PUZZLES array below (script) -->
+ <h2 class="display" style="font-size:1.4rem;" id="p1-question">Loading…</h2>
+ <div class="options" id="p1-options"></div>
+ <div class="hint" id="p1-hint"></div>
+ </div>
+ </section>
+ <!-- SCENE 2 : PUZZLE 2 -->
+ <section class="scene" id="scene-puzzle2">
+ <div class="eyebrow">Clue 02 / 03</div>
+ <div class="card">
+ <h2 class="display" style="font-size:1.4rem;" id="p2-question">Loading…</h2>
+ <div class="options" id="p2-options"></div>
+ <div class="hint" id="p2-hint"></div>
+ </div>
+ </section>
+ <!-- SCENE 3 : PUZZLE 3 (star tap game) -->
+ <section class="scene" id="scene-puzzle3">
+ <div class="eyebrow">Clue 03 / 03</div>
+ <div class="card">
+ <h2 class="display" style="font-size:1.4rem;">Sahi sitare chuno ✨</h2>
+ <p class="lede" style="margin-bottom:0;">In sitaron mein sirf ek hai jo humari dosti ka असली रंग batata hai. Sahi wala dhoondo.</p>
+ <div class="star-field" id="starField"></div>
+ <div class="hint" id="p3-hint"></div>
+ </div>
+ </section>
+ <!-- SCENE 4 : FINAL REVEAL -->
+ <section class="scene" id="scene-final">
+ <div class="eyebrow">Mubarak ho, Akshara 🎉</div>
+ <div class="box-stage" style="margin-bottom:10px;">
+ <div class="burst"></div>
+ <div class="box3d">
+ <div class="face front"><div class="ribbon-v"></div><div class="ribbon-h"></div></div>
+ <div class="face back"><div class="ribbon-v"></div><div class="ribbon-h"></div></div>
+ <div class="face right"><div class="ribbon-v"></div><div class="ribbon-h"></div></div>
+ <div class="face left"><div class="ribbon-v"></div><div class="ribbon-h"></div></div>
+ <div class="face top"><div class="ribbon-v"></div><div class="ribbon-h"></div></div>
+ <div class="face bottom"><div class="ribbon-v"></div><div class="ribbon-h"></div></div>
+ </div>
+ </div>
+ <h1 class="display" style="font-size:2rem;">Tumne raaz suljha liya! 💜</h1>
+ <!-- PRANK: "Galat Akshara" gag -->
+ <div class="card prank-card" id="prankCard">
+ <div id="prankStage1">
+ <div class="prank-spinner">🔄</div>
+ <p class="lede" style="margin:10px 0 0;">Loading Akshara ka surprise...</p>
+ </div>
+ </div>
+ <div class="card" style="text-align:left;">
+ <!-- EDIT HERE: FINAL LETTER — apna message yahan likho -->
+ <div class="letter">Akshara,
+
+From the day we became friends, life just got a little brighter, a little louder, and a lot more fun. I built this whole little mystery for one simple reason — to see that smile of yours, because honestly, you deserve every reason to smile.
+
+You're not just a friend, you're the kind of person people wish they had in their corner. Thank you for always showing up, for the laughs, the late-night talks, and for being exactly who you are.
+
+This one's for you, Akshara. Just for you. ✨
+
+Your friend, always,
+Aman</div>
+ </div>
+ <footer class="note">Made with 💜 just for you</footer>
+ </section>
+</main>
+<script>
+/*
+=========================================================
+ EDIT HERE: PUZZLE QUESTIONS
+ correctIndex is the 0-based index of the right option
+========================================================= */
+const PUZZLES = [
+ {
+ question: "Hum dono pehli baar kaise dost bane the?",
+ options: ["School/College mein saath baithne se", "Common friend ke through", "Social media par", "Kisi party mein"],
+ correctIndex: 2,
+ hintWrong: "Nahi... thoda aur socho 🤔",
+ hintRight: "Bilkul sahi! ✨"
+ },
+ {
+ question: "Hum dono ka sabse favorite time-pass kya hai?",
+ options: [
+ "Ek doosre ke ch*tiye moods ko bina judge kiye bas ek look se samajh jana",
+ "Choti-choti backchod baatein yaad rakh kar bilkul random time par hasa dena",
+ "Bina kisi screen ya distraction ke ghanto bas ek doosre ki chutiyaap company enjoy karna",
+ "Kisi bhi faltu ke topic par deep debate shuru karke use funny end tak le jana"
+ ],
+ correctIndex: 3,
+ hintWrong: "Kuch aur try karo 😉",
+ hintRight: "Yehi toh magic hai humari dosti ka! 🌟"
+ }
+];
+let progressIndex = 0;
+function updateProgress(step){
+ progressIndex = step;
+ document.querySelectorAll('.p-dot').forEach((d,i)=>{
+ if(i <= step) d.classList.add('done');
+ });
+ document.querySelectorAll('.p-line').forEach((l,i)=>{
+ if(i < step) l.classList.add('done');
+ });
+}
+function goTo(id){
+ document.querySelectorAll('.scene').forEach(s=>s.classList.remove('active'));
+ const target = document.getElementById(id);
+ if(target) target.classList.add('active');
+ window.scrollTo({top:0, behavior:'smooth'});
+}
+window.goTo = goTo;
+window.updateProgress = updateProgress;
+
+const introBox = document.getElementById('introBox');
+if(introBox) {
+ introBox.addEventListener('click', ()=>{
+ updateProgress(1);
+ goTo('scene-puzzle1');
+ });
+}
+function renderPuzzle(num){
+ const data = PUZZLES[num-1];
+ const qEl = document.getElementById('p'+num+'-question');
+ const optEl = document.getElementById('p'+num+'-options');
+ const hintEl = document.getElementById('p'+num+'-hint');
+ if(!qEl || !optEl || !hintEl) return;
+ qEl.textContent = data.question;
+ optEl.innerHTML = '';
+ hintEl.textContent = '';
+ data.options.forEach((opt, i)=>{
+ const btn = document.createElement('button');
+ btn.className = 'opt';
+ btn.textContent = opt;
+ btn.addEventListener('click', ()=>{
+ if(i === data.correctIndex){
+ btn.classList.add('correct');
+ hintEl.textContent = data.hintRight;
+ hintEl.style.color = '#8ffcb0';
+ setTimeout(()=>{
+ if(num === 1){ updateProgress(2); goTo('scene-puzzle2'); renderPuzzle(2); }
+ else if(num === 2){ updateProgress(3); goTo('scene-puzzle3'); initStarGame(); }
+ }, 900);
+ } else {
+ btn.classList.add('wrong');
+ hintEl.textContent = data.hintWrong;
+ hintEl.style.color = 'var(--gold)';
+ setTimeout(()=>btn.classList.remove('wrong'), 700);
+ }
+ });
+ optEl.appendChild(btn);
+ });
+}
+renderPuzzle(1);
+/* ---------- Puzzle 3: star tap mini game ---------- */
+function initStarGame(){
+ const field = document.getElementById('starField');
+ if(!field) return;
+ field.innerHTML = '';
+ const hint = document.getElementById('p3-hint');
+ if(hint) hint.textContent = '';
+ const positions = [
+ {x:'10%', y:'20%'},{x:'70%', y:'15%'},{x:'40%', y:'55%'},
+ {x:'85%', y:'65%'},{x:'20%', y:'75%'},{x:'55%', y:'25%'}
+ ];
+ const correct = Math.floor(Math.random()*positions.length);
+ positions.forEach((pos, i)=>{
+ const star = document.createElement('div');
+ star.className = 'star-target';
+ star.style.left = pos.x;
+ star.style.top = pos.y;
+ star.textContent = '✨';
+ star.addEventListener('click', ()=>{
+ if(i === correct){
+ if(hint){
+ hint.textContent = 'Yehi hai woh sitara! Raaz khul raha hai... 💫';
+ hint.style.color = '#8ffcb0';
+ }
+ document.querySelectorAll('.star-target').forEach(s=>s.classList.add('hit'));
+ updateProgress(4);
+ setTimeout(()=>{
+ goTo('scene-final');
+ openFinalBox();
+ }, 1100);
+ } else {
+ star.classList.add('hit');
+ if(hint){
+ hint.textContent = 'Ye wala nahi... aur dhoondo ✨';
+ hint.style.color = 'var(--gold)';
+ }
+ }
+ });
+ field.appendChild(star);
+ });
+}
+/* ---------- Final box opening + confetti ---------- */
+function openFinalBox(){
+ const scene = document.getElementById('scene-final');
+ setTimeout(()=>{
+ if(scene) scene.classList.add('opened');
+ launchConfetti();
+ startPrank();
+ }, 400);
+}
+function startPrank(){
+ const stage = document.getElementById('prankStage1');
+ const card = document.getElementById('prankCard');
+ // Stage 2: "wrong Akshara" reveal
+ setTimeout(()=>{
+ if(card) card.classList.add('prank-shake');
+ if(stage) {
+ stage.innerHTML = `
+ <div class="prank-avatar">🤦‍♀️</div>
+ <div class="prank-name">AKSHARA VERMA · Class 9-B · Kota</div>
+ <div class="prank-msg">Ruko ruko... system ne galat Akshara load kar di! 😳<br>Ye toh koi aur nikli!</div>
+ <button class="btn" id="fixSystemBtn" style="font-size:0.75rem; padding:11px 22px;">System Theek Karo 🔧</button>
+ `;
+ const fixBtn = document.getElementById('fixSystemBtn');
+ if(fixBtn) fixBtn.addEventListener('click', prankReveal);
+ }
+ }, 1600);
+}
+function prankReveal(){
+ const stage = document.getElementById('prankStage1');
+ if(stage) {
+ stage.innerHTML = `
+ <div class="prank-avatar">💜</div>
+ <div class="prank-name">SYSTEM FIXED ✓</div>
+ <div class="prank-msg">Just kidding! 😂<br>Bas tujhe pakane ka mann tha, Akshara.</div>
+ `;
+ }
+ launchConfetti();
+}
+function launchConfetti(){
+ const colors = ['#ff5fa2', '#a855f7', '#ffd166', '#f8ecff'];
+ for(let i=0; i<70; i++){
+ setTimeout(()=>{
+ const c = document.createElement('div');
+ c.className = 'confetti';
+ const size = 6 + Math.random()*6;
+ c.style.width = size+'px';
+ c.style.height = (size*0.4)+'px';
+ c.style.left = Math.random()*100+'vw';
+ c.style.background = colors[Math.floor(Math.random()*colors.length)];
+ c.style.animationDuration = (2.5 + Math.random()*2)+'s';
+ document.body.appendChild(c);
+ setTimeout(()=>c.remove(), 5000);
+ }, i*30);
+ }
+}
+/* ---------- Starfield background (canvas, lightweight, parallax) ---------- */
+(function(){
+ const canvas = document.getElementById('stars-canvas');
+ if(!canvas) return;
+ const ctx = canvas.getContext('2d');
+ if(!ctx) return;
+ let w,h,stars=[];
+ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ function resize(){
+ w = canvas.width = window.innerWidth;
+ h = canvas.height = window.innerHeight;
+ const count = Math.floor((w*h)/9000);
+ stars = Array.from({length:count}, ()=>({
+ x: Math.random()*w,
+ y: Math.random()*h,
+ r: Math.random()*1.4+0.3,
+ a: Math.random(),
+ speed: Math.random()*0.015+0.003
+ }));
+ }
+ window.addEventListener('resize', resize);
+ resize();
+ let mx=0, my=0;
+ window.addEventListener('mousemove', (e)=>{
+ mx = (e.clientX - w/2)/w;
+ my = (e.clientY - h/2)/h;
+ });
+ function draw(){
+ ctx.clearRect(0,0,w,h);
+ stars.forEach(s=>{
+ s.a += s.speed;
+ const tw = (Math.sin(s.a)+1)/2;
+ ctx.beginPath();
+ const px = s.x + mx*10;
+ const py = s.y + my*10;
+ ctx.arc(px, py, s.r, 0, Math.PI*2);
+ ctx.fillStyle = `rgba(255,255,255,${0.25+tw*0.6})`;
+ ctx.fill();
+ });
+ if(!reduceMotion) requestAnimationFrame(draw);
+ }
+ draw();
+})();
+</script>
+</body>
+</html>
