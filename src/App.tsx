@@ -27,16 +27,43 @@ const PUZZLES: Puzzle[] = [
     hintRight: "Bilkul sahi! ✨",
   },
   {
-    question: "Hum dono ka sabse favorite time-pass kya hai?",
+    question: "Raat 2 baje Akshara sabse zyada kya karna pasand karegi?",
     options: [
-      "Ek doosre ke ch*tiye moods ko bina judge kiye bas ek look se samajh jana",
-      "Choti-choti backchod baatein yaad rakh kar bilkul random time par hasa dena",
-      "Bina kisi screen ya distraction ke ghanto bas ek doosre ki chutiyaap company enjoy karna",
-      "Kisi bhi faltu ke topic par deep debate shuru karke use funny end tak le jana",
+      "Long drive pe nikal jana",
+      "Random topic pe bahes chhedna",
+      "Ghanto bina filter ke baatein karna",
+      "Sabko ignore karke so jana",
     ],
     correctIndex: 3,
     hintWrong: "Kuch aur try karo 😉",
     hintRight: "Yehi toh magic hai humari dosti ka! 🌟",
+  },
+];
+
+const ROAST_CARDS = [
+  {
+    front: "Tu duniya ki sabse zyada attitude wali insaan hai",
+    back: "Isiliye tu kisi ke fake pyaar mein kabhi nahi aati",
+  },
+  {
+    front: "Teri sarcasm kisi hathiyar se kam nahi",
+    back: "Par usi sarcasm ne mujhe sabse zyada hasaya hai",
+  },
+  {
+    front: "Tu kisi ki bakwaas 2 second bhi bardaasht nahi karti",
+    back: "Isiliye jab tu kisi ko sunti hai, pata chalta hai wo genuine hai",
+  },
+  {
+    front: "Teri taang kheenchne ki fitrat legendary hai",
+    back: "Par jab zarurat padi, sabse pehle khadi bhi tu hoti hai",
+  },
+  {
+    front: "Random topics pe behas start karna teri favorite hobby hai",
+    back: "Aur unhe funny note pe khatam karna tera superpower hai",
+  },
+  {
+    front: "Night drives pe tera vibe kuch alag hi level ka hota hai",
+    back: "Kyunki tab tu sabse zyada real aur unfiltered hoti hai — wahi version best hai",
   },
 ];
 
@@ -73,6 +100,9 @@ export default function App() {
     'loading'
   );
   const [isPrankShaking, setIsPrankShaking] = useState<boolean>(false);
+  const [flippedCards, setFlippedCards] = useState<{ [index: number]: boolean }>(
+    {}
+  );
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -167,6 +197,22 @@ export default function App() {
     }
   };
 
+  const startFloatingHearts = () => {
+    const items = ['💗', '✨', '💜', '🌸', '⭐'];
+    const interval = setInterval(() => {
+      const h = document.createElement('div');
+      h.className = 'float-heart';
+      h.textContent = items[Math.floor(Math.random() * items.length)];
+      h.style.left = Math.random() * 100 + 'vw';
+      h.style.fontSize = 14 + Math.random() * 14 + 'px';
+      h.style.setProperty('--drift', Math.random() * 80 - 40 + 'px');
+      h.style.animationDuration = 6 + Math.random() * 4 + 's';
+      document.body.appendChild(h);
+      setTimeout(() => h.remove(), 11000);
+    }, 550);
+    return interval;
+  };
+
   const handleStartPuzzles = () => {
     setProgressIndex(1);
     setCurrentScene('puzzle1');
@@ -227,10 +273,11 @@ export default function App() {
       setTimeout(() => {
         setCurrentScene('final');
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        // Trigger box opening + prank
+        // Trigger box opening + prank + hearts
         setTimeout(() => {
           setIsBoxOpened(true);
           launchConfetti();
+          startFloatingHearts();
           // Stage 2: "wrong Akshara" prank reveal after 1.6s
           setTimeout(() => {
             setIsPrankShaking(true);
@@ -251,6 +298,13 @@ export default function App() {
     setPrankStage('fixed');
     setIsPrankShaking(false);
     launchConfetti();
+  };
+
+  const toggleCardFlip = (index: number) => {
+    setFlippedCards((prev) => ({
+      ...prev,
+      [index]: !prev[index],
+    }));
   };
 
   return (
@@ -476,6 +530,12 @@ export default function App() {
               Tumne raaz suljha liya! 💜
             </h1>
 
+            {/* Cute Cat Mascot */}
+            <div className="cat-wrap">
+              <div className="cat-emoji">🐱</div>
+              <div className="cat-bubble">yayy tumne kar diya! 🐾</div>
+            </div>
+
             {/* PRANK: "Galat Akshara" gag */}
             <div
               className={`card prank-card ${isPrankShaking ? 'prank-shake' : ''}`}
@@ -524,6 +584,28 @@ export default function App() {
                     </div>
                   </>
                 )}
+              </div>
+            </div>
+
+            {/* ROAST & REAL TALK flip cards */}
+            <div className="roast-section">
+              <h2 className="display roast-title">Kuch Taane, Kuch Sach 😏</h2>
+              <div className="roast-sub-wrap">
+                <span className="roast-sub">Tap karo palatne ke liye</span>
+              </div>
+              <div className="roast-grid" id="roastGrid">
+                {ROAST_CARDS.map((card, i) => (
+                  <div
+                    key={i}
+                    className={`flip-card ${flippedCards[i] ? 'flipped' : ''}`}
+                    onClick={() => toggleCardFlip(i)}
+                  >
+                    <div className="flip-inner">
+                      <div className="flip-face flip-front">{card.front}</div>
+                      <div className="flip-face flip-back">{card.back}</div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
 
