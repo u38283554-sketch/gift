@@ -512,6 +512,8 @@ color:rgba(255,255,255,0.35);
  <div class="p-dot" data-dot="2"></div>
  <div class="p-line" data-line="2"><i></i></div>
  <div class="p-dot" data-dot="3"></div>
+ <div class="p-line" data-line="3"><i></i></div>
+ <div class="p-dot" data-dot="4"></div>
 </div>
 <main>
  <!-- SCENE 0 : INTRO -->
@@ -533,7 +535,7 @@ color:rgba(255,255,255,0.35);
  </section>
  <!-- SCENE 1 : PUZZLE 1 -->
  <section class="scene" id="scene-puzzle1">
- <div class="eyebrow">Clue 01 / 03</div>
+ <div class="eyebrow">Clue 01 / 04</div>
  <div class="card">
  <!-- EDIT HERE: PUZZLE 1 question/options in the PUZZLES array below (script) -->
  <h2 class="display" style="font-size:1.4rem;" id="p1-question">Loading…</h2>
@@ -543,21 +545,29 @@ color:rgba(255,255,255,0.35);
  </section>
  <!-- SCENE 2 : PUZZLE 2 -->
  <section class="scene" id="scene-puzzle2">
- <div class="eyebrow">Clue 02 / 03</div>
+ <div class="eyebrow">Clue 02 / 04</div>
  <div class="card">
  <h2 class="display" style="font-size:1.4rem;" id="p2-question">Loading…</h2>
  <div class="options" id="p2-options"></div>
  <div class="hint" id="p2-hint"></div>
  </div>
  </section>
- <!-- SCENE 3 : PUZZLE 3 (star tap game) -->
+ <!-- SCENE 3 : PUZZLE 3 -->
  <section class="scene" id="scene-puzzle3">
- <div class="eyebrow">Clue 03 / 03</div>
+ <div class="eyebrow">Clue 03 / 04</div>
  <div class="card">
- <h2 class="display" style="font-size:1.4rem;">Sahi sitare chuno ✨</h2>
- <p class="lede" style="margin-bottom:0;">In sitaron mein sirf ek hai jo humari dosti ka असली रंग batata hai. Sahi wala dhoondo.</p>
- <div class="star-field" id="starField"></div>
+ <h2 class="display" style="font-size:1.4rem;" id="p3-question">Loading…</h2>
+ <div class="options" id="p3-options"></div>
  <div class="hint" id="p3-hint"></div>
+ </div>
+ </section>
+ <!-- SCENE 4 : PUZZLE 4 -->
+ <section class="scene" id="scene-puzzle4">
+ <div class="eyebrow">Clue 04 / 04</div>
+ <div class="card">
+ <h2 class="display" style="font-size:1.4rem;" id="p4-question">Loading…</h2>
+ <div class="options" id="p4-options"></div>
+ <div class="hint" id="p4-hint"></div>
  </div>
  </section>
  <!-- SCENE 4 : FINAL REVEAL -->
@@ -671,6 +681,25 @@ const PUZZLES = [
  correctIndex: 3,
  hintWrong: "Kuch aur try karo 😉",
  hintRight: "Yehi toh magic hai humari dosti ka! 🌟"
+ },
+ {
+ question: "Akshara ka favourite singer kaun hai?",
+ options: ["Karan Aujla", "Divine", "Krsna", "Cheema/Gur Sidhu"],
+ correctIndex: 3,
+ hintWrong: "Nahi yaar, aur socho 🎧",
+ hintRight: "Ekdum sahi! 🎶"
+ },
+ {
+ question: "Jab usne 77 lakh ke plot ki amiri dikhayi thi, toh bhai ne sabse pehle kya reaction diya tha?",
+ options: [
+ "💸 Legal team bula ke property papers verify karwane laga tha",
+ "🥱 Bola ki ab itna rich hone ke baad baat karne ka koi fayda nahi",
+ "🥂 Amir banne ki khushi mein chupchap sone ka bol diya tha",
+ "😎 Apni empire build karne ki baat karke side ho gaya tha"
+ ],
+ correctIndex: 0,
+ hintWrong: "Arre nahi, wahi wala nahi tha 😂",
+ hintRight: "Hahaha bilkul sahi pakda! 💸"
  }
 ];
 let progressIndex = 0;
@@ -718,8 +747,15 @@ function renderPuzzle(num){
  hintEl.textContent = data.hintRight;
  hintEl.style.color = '#8ffcb0';
  setTimeout(()=>{
- if(num === 1){ updateProgress(2); goTo('scene-puzzle2'); renderPuzzle(2); }
- else if(num === 2){ updateProgress(3); goTo('scene-puzzle3'); initStarGame(); }
+ if(num < PUZZLES.length){
+ updateProgress(num+1);
+ goTo('scene-puzzle'+(num+1));
+ renderPuzzle(num+1);
+ } else {
+ updateProgress(5);
+ goTo('scene-final');
+ openFinalBox();
+ }
  }, 900);
  } else {
  btn.classList.add('wrong');
@@ -732,47 +768,7 @@ function renderPuzzle(num){
  });
 }
 renderPuzzle(1);
-/* ---------- Puzzle 3: star tap mini game ---------- */
-function initStarGame(){
- const field = document.getElementById('starField');
- if(!field) return;
- field.innerHTML = '';
- const hint = document.getElementById('p3-hint');
- if(hint) hint.textContent = '';
- const positions = [
- {x:'10%', y:'20%'},{x:'70%', y:'15%'},{x:'40%', y:'55%'},
- {x:'85%', y:'65%'},{x:'20%', y:'75%'},{x:'55%', y:'25%'}
- ];
- const correct = Math.floor(Math.random()*positions.length);
- positions.forEach((pos, i)=>{
- const star = document.createElement('div');
- star.className = 'star-target';
- star.style.left = pos.x;
- star.style.top = pos.y;
- star.textContent = '✨';
- star.addEventListener('click', ()=>{
- if(i === correct){
- if(hint){
- hint.textContent = 'Yehi hai woh sitara! Raaz khul raha hai... 💫';
- hint.style.color = '#8ffcb0';
- }
- document.querySelectorAll('.star-target').forEach(s=>s.classList.add('hit'));
- updateProgress(4);
- setTimeout(()=>{
- goTo('scene-final');
- openFinalBox();
- }, 1100);
- } else {
- star.classList.add('hit');
- if(hint){
- hint.textContent = 'Ye wala nahi... aur dhoondo ✨';
- hint.style.color = 'var(--gold)';
- }
- }
- });
- field.appendChild(star);
- });
-}
+
 /* ---------- Final box opening + confetti ---------- */
 function openFinalBox(){
  const scene = document.getElementById('scene-final');

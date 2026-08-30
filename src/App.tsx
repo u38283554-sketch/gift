@@ -38,6 +38,31 @@ const PUZZLES: Puzzle[] = [
     hintWrong: "Kuch aur try karo 😉",
     hintRight: "Yehi toh magic hai humari dosti ka! 🌟",
   },
+  {
+    question: "Akshara ka favourite singer kaun hai?",
+    options: [
+      "Karan Aujla",
+      "Divine",
+      "Krsna",
+      "Cheema/Gur Sidhu",
+    ],
+    correctIndex: 3,
+    hintWrong: "Nahi yaar, aur socho 🎧",
+    hintRight: "Ekdum sahi! 🎶",
+  },
+  {
+    question:
+      "Jab usne 77 lakh ke plot ki amiri dikhayi thi, toh bhai ne sabse pehle kya reaction diya tha?",
+    options: [
+      "💸 Legal team bula ke property papers verify karwane laga tha",
+      "🥱 Bola ki ab itna rich hone ke baad baat karne ka koi fayda nahi",
+      "🥂 Amir banne ki khushi mein chupchap sone ka bol diya tha",
+      "😎 Apni empire build karne ki baat karke side ho gaya tha",
+    ],
+    correctIndex: 0,
+    hintWrong: "Arre nahi, wahi wala nahi tha 😂",
+    hintRight: "Hahaha bilkul sahi pakda! 💸",
+  },
 ];
 
 const ROAST_CARDS = [
@@ -67,32 +92,15 @@ const ROAST_CARDS = [
   },
 ];
 
-const STAR_POSITIONS = [
-  { x: '10%', y: '20%' },
-  { x: '70%', y: '15%' },
-  { x: '40%', y: '55%' },
-  { x: '85%', y: '65%' },
-  { x: '20%', y: '75%' },
-  { x: '55%', y: '25%' },
-];
-
 export default function App() {
   const [currentScene, setCurrentScene] = useState<
-    'intro' | 'puzzle1' | 'puzzle2' | 'puzzle3' | 'final'
+    'intro' | 'puzzle1' | 'puzzle2' | 'puzzle3' | 'puzzle4' | 'final'
   >('intro');
   const [progressIndex, setProgressIndex] = useState<number>(0);
   const [selectedOption, setSelectedOption] = useState<{
     [puzzleNum: number]: { index: number; correct: boolean };
   }>({});
   const [hints, setHints] = useState<{ [puzzleNum: number]: string }>({});
-
-  // Star game state
-  const [correctStarIndex, setCorrectStarIndex] = useState<number>(0);
-  const [hitStars, setHitStars] = useState<number[]>([]);
-  const [starHint, setStarHint] = useState<{ text: string; isCorrect: boolean }>({
-    text: '',
-    isCorrect: false,
-  });
 
   // Final scene states
   const [isBoxOpened, setIsBoxOpened] = useState<boolean>(false);
@@ -219,7 +227,7 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleOptionClick = (puzzleNum: 1 | 2, optionIndex: number) => {
+  const handleOptionClick = (puzzleNum: 1 | 2 | 3 | 4, optionIndex: number) => {
     const puzzle = PUZZLES[puzzleNum - 1];
     const isCorrect = optionIndex === puzzle.correctIndex;
 
@@ -231,20 +239,24 @@ export default function App() {
     if (isCorrect) {
       setHints((prev) => ({ ...prev, [puzzleNum]: puzzle.hintRight }));
       setTimeout(() => {
-        if (puzzleNum === 1) {
-          setProgressIndex(2);
-          setCurrentScene('puzzle2');
+        if (puzzleNum < PUZZLES.length) {
+          const nextPuzzleNum = (puzzleNum + 1) as 2 | 3 | 4;
+          setProgressIndex(nextPuzzleNum);
+          setCurrentScene(`puzzle${nextPuzzleNum}` as any);
           window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
-          setProgressIndex(3);
-          // init star game
-          setCorrectStarIndex(
-            Math.floor(Math.random() * STAR_POSITIONS.length)
-          );
-          setHitStars([]);
-          setStarHint({ text: '', isCorrect: false });
-          setCurrentScene('puzzle3');
+          setProgressIndex(5);
+          setCurrentScene('final');
           window.scrollTo({ top: 0, behavior: 'smooth' });
+          setTimeout(() => {
+            setIsBoxOpened(true);
+            launchConfetti();
+            startFloatingHearts();
+            setTimeout(() => {
+              setIsPrankShaking(true);
+              setPrankStage('wrong');
+            }, 1600);
+          }, 400);
         }
       }, 900);
     } else {
@@ -256,41 +268,6 @@ export default function App() {
           return next;
         });
       }, 700);
-    }
-  };
-
-  const handleStarClick = (index: number) => {
-    if (hitStars.includes(index)) return;
-
-    if (index === correctStarIndex) {
-      setStarHint({
-        text: 'Yehi hai woh sitara! Raaz khul raha hai... 💫',
-        isCorrect: true,
-      });
-      setHitStars(STAR_POSITIONS.map((_, i) => i));
-      setProgressIndex(4);
-
-      setTimeout(() => {
-        setCurrentScene('final');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        // Trigger box opening + prank + hearts
-        setTimeout(() => {
-          setIsBoxOpened(true);
-          launchConfetti();
-          startFloatingHearts();
-          // Stage 2: "wrong Akshara" prank reveal after 1.6s
-          setTimeout(() => {
-            setIsPrankShaking(true);
-            setPrankStage('wrong');
-          }, 1600);
-        }, 400);
-      }, 1100);
-    } else {
-      setHitStars((prev) => [...prev, index]);
-      setStarHint({
-        text: 'Ye wala nahi... aur dhoondo ✨',
-        isCorrect: false,
-      });
     }
   };
 
@@ -311,7 +288,7 @@ export default function App() {
     <>
       <canvas id="stars-canvas" ref={canvasRef}></canvas>
 
-      {/* Progress Constellation */}
+      {/* Progress Constellation (5 dots, 4 lines) */}
       <div id="progress" aria-hidden="true">
         <div className={`p-dot ${progressIndex >= 0 ? 'done' : ''}`} data-dot="0"></div>
         <div className={`p-line ${progressIndex >= 1 ? 'done' : ''}`} data-line="0">
@@ -325,7 +302,11 @@ export default function App() {
         <div className={`p-line ${progressIndex >= 3 ? 'done' : ''}`} data-line="2">
           <i></i>
         </div>
-        <div className={`p-dot ${progressIndex >= 4 ? 'done' : ''}`} data-dot="3"></div>
+        <div className={`p-dot ${progressIndex >= 3 ? 'done' : ''}`} data-dot="3"></div>
+        <div className={`p-line ${progressIndex >= 4 ? 'done' : ''}`} data-line="3">
+          <i></i>
+        </div>
+        <div className={`p-dot ${progressIndex >= 5 ? 'done' : ''}`} data-dot="4"></div>
       </div>
 
       <main>
@@ -377,7 +358,7 @@ export default function App() {
         {/* SCENE 1 : PUZZLE 1 */}
         {currentScene === 'puzzle1' && (
           <section className="scene active" id="scene-puzzle1">
-            <div className="eyebrow">Clue 01 / 03</div>
+            <div className="eyebrow">Clue 01 / 04</div>
             <div className="card">
               <h2 className="display" style={{ fontSize: '1.4rem' }} id="p1-question">
                 {PUZZLES[0].question}
@@ -415,7 +396,7 @@ export default function App() {
         {/* SCENE 2 : PUZZLE 2 */}
         {currentScene === 'puzzle2' && (
           <section className="scene active" id="scene-puzzle2">
-            <div className="eyebrow">Clue 02 / 03</div>
+            <div className="eyebrow">Clue 02 / 04</div>
             <div className="card">
               <h2 className="display" style={{ fontSize: '1.4rem' }} id="p2-question">
                 {PUZZLES[1].question}
@@ -450,46 +431,83 @@ export default function App() {
           </section>
         )}
 
-        {/* SCENE 3 : PUZZLE 3 (star tap game) */}
+        {/* SCENE 3 : PUZZLE 3 */}
         {currentScene === 'puzzle3' && (
           <section className="scene active" id="scene-puzzle3">
-            <div className="eyebrow">Clue 03 / 03</div>
+            <div className="eyebrow">Clue 03 / 04</div>
             <div className="card">
-              <h2 className="display" style={{ fontSize: '1.4rem' }}>
-                Sahi sitare chuno ✨
+              <h2 className="display" style={{ fontSize: '1.4rem' }} id="p3-question">
+                {PUZZLES[2].question}
               </h2>
-              <p className="lede" style={{ marginBottom: 0 }}>
-                In sitaron mein sirf ek hai jo humari dosti ka असली रंग batata
-                hai. Sahi wala dhoondo.
-              </p>
-              <div className="star-field" id="starField">
-                {STAR_POSITIONS.map((pos, i) => (
-                  <div
-                    key={i}
-                    className={`star-target ${
-                      hitStars.includes(i) ? 'hit' : ''
-                    }`}
-                    style={{ left: pos.x, top: pos.y }}
-                    onClick={() => handleStarClick(i)}
-                  >
-                    ✨
-                  </div>
-                ))}
+              <div className="options" id="p3-options">
+                {PUZZLES[2].options.map((opt, i) => {
+                  const isSelected = selectedOption[3]?.index === i;
+                  const isCorrect = selectedOption[3]?.correct;
+                  return (
+                    <button
+                      key={i}
+                      className={`opt ${
+                        isSelected ? (isCorrect ? 'correct' : 'wrong') : ''
+                      }`}
+                      onClick={() => handleOptionClick(3, i)}
+                    >
+                      {opt}
+                    </button>
+                  );
+                })}
               </div>
               <div
                 className="hint"
                 id="p3-hint"
                 style={{
-                  color: starHint.isCorrect ? '#8ffcb0' : 'var(--gold)',
+                  color: selectedOption[3]?.correct ? '#8ffcb0' : 'var(--gold)',
                 }}
               >
-                {starHint.text}
+                {hints[3]}
               </div>
             </div>
           </section>
         )}
 
-        {/* SCENE 4 : FINAL REVEAL */}
+        {/* SCENE 4 : PUZZLE 4 */}
+        {currentScene === 'puzzle4' && (
+          <section className="scene active" id="scene-puzzle4">
+            <div className="eyebrow">Clue 04 / 04</div>
+            <div className="card">
+              <h2 className="display" style={{ fontSize: '1.4rem' }} id="p4-question">
+                {PUZZLES[3].question}
+              </h2>
+              <div className="options" id="p4-options">
+                {PUZZLES[3].options.map((opt, i) => {
+                  const isSelected = selectedOption[4]?.index === i;
+                  const isCorrect = selectedOption[4]?.correct;
+                  return (
+                    <button
+                      key={i}
+                      className={`opt ${
+                        isSelected ? (isCorrect ? 'correct' : 'wrong') : ''
+                      }`}
+                      onClick={() => handleOptionClick(4, i)}
+                    >
+                      {opt}
+                    </button>
+                  );
+                })}
+              </div>
+              <div
+                className="hint"
+                id="p4-hint"
+                style={{
+                  color: selectedOption[4]?.correct ? '#8ffcb0' : 'var(--gold)',
+                }}
+              >
+                {hints[4]}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* SCENE 5 : FINAL REVEAL */}
         {currentScene === 'final' && (
           <section
             className={`scene active ${isBoxOpened ? 'opened' : ''}`}
