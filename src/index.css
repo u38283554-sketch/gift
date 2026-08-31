@@ -263,6 +263,388 @@ p.lede {
   max-width: 440px;
 }
 
+/* ---------- Redesigned intro ---------- */
+.top-corner-icons {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 4px;
+}
+
+.icon-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.script-lead {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.3rem;
+  color: var(--text-dim);
+  margin-bottom: 2px;
+}
+
+.name-hero {
+  font-family: 'Dancing Script', cursive;
+  font-weight: 700;
+  font-size: 3.4rem;
+  line-height: 1.1;
+  background: linear-gradient(90deg, var(--pink), var(--purple));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 6px;
+}
+
+.name-underline {
+  width: 90px;
+  height: 2px;
+  margin: 0 auto 18px;
+  background: linear-gradient(90deg, transparent, var(--pink), transparent);
+}
+
+.msg-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 18px;
+  padding: 16px 20px;
+  margin: 22px 0 20px;
+}
+
+.msg-card .accent {
+  color: var(--pink);
+  font-weight: 600;
+}
+
+.unlock-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.ready-text {
+  margin-top: 20px;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+.dot-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 18px 0 6px;
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 0.75rem;
+}
+
+.dot-divider::before,
+.dot-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  max-width: 60px;
+}
+
+/* ---------- Clue list screen ---------- */
+.clue-header {
+  margin-bottom: 26px;
+}
+
+.clue-header .display {
+  font-size: 1.5rem;
+  margin-bottom: 6px;
+}
+
+.clue-header p {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.clue-header .accent {
+  color: var(--pink);
+  font-weight: 600;
+}
+
+.clue-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 26px;
+}
+
+.clue-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 14px 16px;
+  text-align: left;
+}
+
+.clue-num {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: #fff;
+}
+
+.clue-icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.clue-text {
+  font-size: 0.88rem;
+  color: var(--text-light);
+  line-height: 1.4;
+}
+
+.clue-text .sub {
+  color: var(--gold);
+  font-size: 0.8rem;
+}
+
+.clue-arrow {
+  margin-left: auto;
+  color: var(--text-dim);
+}
+
+/* ---------- Surprise header + closing polaroid CTA ---------- */
+.surprise-header {
+  margin-bottom: 8px;
+}
+
+.surprise-header .script-lead {
+  font-size: 1.6rem;
+}
+
+.surprise-header .big-word {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-style: italic;
+  font-size: 2.2rem;
+  background: linear-gradient(90deg, var(--pink), var(--gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.final-polaroid {
+  background: #fff;
+  padding: 14px 14px 34px;
+  border-radius: 8px;
+  max-width: 220px;
+  margin: 24px auto 10px;
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.4);
+  transform: rotate(-2deg);
+}
+
+.final-polaroid .ph-inner {
+  aspect-ratio: 1/1;
+  border-radius: 4px;
+  background: radial-gradient(circle, rgba(255, 95, 162, 0.5), rgba(168, 85, 247, 0.6));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.6rem;
+}
+
+.final-polaroid .caption {
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.closing-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  text-align: left;
+  margin: 22px 0;
+}
+
+.closing-card .heart-icon {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: rgba(255, 95, 162, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.closing-card p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-light);
+}
+
+.closing-card .accent {
+  color: var(--pink);
+  font-weight: 600;
+}
+
+/* ---------- AKSHARA name constellation ---------- */
+.constellation-wrap {
+  margin: 22px 0 26px;
+}
+
+.constellation-label {
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  margin-bottom: 14px;
+}
+
+.constellation-track {
+  position: relative;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px;
+}
+
+.constellation-track::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  top: 50%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-50%);
+}
+
+.constellation-track::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 50%;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--gold), var(--pink));
+  box-shadow: 0 0 10px var(--gold);
+  transform: translateY(-50%);
+  transition: width 2.2s ease;
+}
+
+.constellation-track.drawn::after {
+  width: calc(100% - 8px);
+}
+
+.name-star {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  opacity: 0.35;
+  transform: scale(0.6);
+  transition: all .4s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.name-star.lit {
+  opacity: 1;
+  transform: scale(1.15);
+  background: radial-gradient(circle, var(--gold), var(--pink));
+  color: #170b2e;
+  box-shadow: 0 0 18px var(--gold);
+}
+
+/* ---------- Lo-fi Audio Player Badge ---------- */
+.lofi-audio-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 95, 162, 0.35);
+  border-radius: 20px;
+  padding: 6px 14px;
+  margin: 6px auto 14px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 16px rgba(168, 85, 247, 0.2);
+  transition: all 0.25s ease;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--gold);
+}
+
+.lofi-audio-pill:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: var(--pink);
+  transform: translateY(-1px);
+}
+
+.lofi-equalizer {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 12px;
+}
+
+.lofi-bar {
+  width: 2.5px;
+  background: linear-gradient(180deg, var(--gold), var(--pink));
+  border-radius: 2px;
+  animation: equalize 1s ease-in-out infinite alternate;
+}
+
+.lofi-bar:nth-child(1) { height: 40%; animation-delay: 0.1s; }
+.lofi-bar:nth-child(2) { height: 80%; animation-delay: 0.3s; }
+.lofi-bar:nth-child(3) { height: 60%; animation-delay: 0.2s; }
+.lofi-bar:nth-child(4) { height: 100%; animation-delay: 0.4s; }
+
+@keyframes equalize {
+  0% { height: 25%; }
+  100% { height: 100%; }
+}
+
+.lofi-bar.muted {
+  animation: none;
+  height: 25%;
+  background: var(--text-dim);
+}
+
 /* ---------- puzzle card ---------- */
 .card {
   background: rgba(255, 255, 255, 0.05);

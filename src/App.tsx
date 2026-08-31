@@ -4,6 +4,7 @@
  */
 
 import React, { useEffect, useRef, useState } from 'react';
+import { lofiPlayer } from './utils/lofiAudio';
 
 interface Puzzle {
   question: string;
@@ -15,86 +16,92 @@ interface Puzzle {
 
 const PUZZLES: Puzzle[] = [
   {
-    question: "Hum dono pehli baar kaise dost bane the?",
+    question: 'Akshara kisi ko compliment kaise deti hai?',
     options: [
-      "School/College mein saath baithne se",
-      "Common friend ke through",
-      "Social media par",
-      "Kisi party mein",
+      'Seedha bol deti hai, bina lag lapet ke',
+      'Taane maar ke, par matlab genuine hota hai',
+      'Bilkul nahi deti, actions se dikhati hai',
+      'Sirf close logo ko hi deti hai',
+    ],
+    correctIndex: 1,
+    hintWrong: 'Nahi... thoda aur socho 🤔',
+    hintRight: 'Bilkul sahi! ✨',
+  },
+  {
+    question: 'Jab Akshara gussa hoti hai, sabse pehle kya karti hai?',
+    options: [
+      'Silent treatment de deti hai',
+      'Seedha sunaa deti hai',
+      'Sarcastic taane maarti hai',
+      'Ignore kar deti hai',
     ],
     correctIndex: 2,
-    hintWrong: "Nahi... thoda aur socho 🤔",
-    hintRight: "Bilkul sahi! ✨",
+    hintWrong: 'Nahi yaar, aur socho 😏',
+    hintRight: 'Bilkul sahi pakda! 🎯',
   },
   {
-    question: "Raat 2 baje Akshara sabse zyada kya karna pasand karegi?",
-    options: [
-      "Long drive pe nikal jana",
-      "Random topic pe bahes chhedna",
-      "Ghanto bina filter ke baatein karna",
-      "Sabko ignore karke so jana",
-    ],
+    question: 'Akshara ka favourite singer kaun hai?',
+    options: ['Karan Aujla', 'Divine', 'Krsna', 'Cheema/Gur Sidhu'],
     correctIndex: 3,
-    hintWrong: "Kuch aur try karo 😉",
-    hintRight: "Yehi toh magic hai humari dosti ka! 🌟",
-  },
-  {
-    question: "Akshara ka favourite singer kaun hai?",
-    options: [
-      "Karan Aujla",
-      "Divine",
-      "Krsna",
-      "Cheema/Gur Sidhu",
-    ],
-    correctIndex: 3,
-    hintWrong: "Nahi yaar, aur socho 🎧",
-    hintRight: "Ekdum sahi! 🎶",
+    hintWrong: 'Nahi yaar, aur socho 🎧',
+    hintRight: 'Ekdum sahi! 🎶',
   },
   {
     question:
-      "Jab usne 77 lakh ke plot ki amiri dikhayi thi, toh bhai ne sabse pehle kya reaction diya tha?",
+      'Jab usne 77 lakh ke plot ki amiri dikhayi thi, toh bhai ne sabse pehle kya reaction diya tha?',
     options: [
-      "💸 Legal team bula ke property papers verify karwane laga tha",
-      "🥱 Bola ki ab itna rich hone ke baad baat karne ka koi fayda nahi",
-      "🥂 Amir banne ki khushi mein chupchap sone ka bol diya tha",
-      "😎 Apni empire build karne ki baat karke side ho gaya tha",
+      '💸 Legal team bula ke property papers verify karwane laga tha',
+      '🥱 Bola ki ab itna rich hone ke baad baat karne ka koi fayda nahi',
+      '🥂 Amir banne ki khushi mein chupchap sone ka bol diya tha',
+      '😎 Apni empire build karne ki baat karke side ho gaya tha',
     ],
     correctIndex: 0,
-    hintWrong: "Arre nahi, wahi wala nahi tha 😂",
-    hintRight: "Hahaha bilkul sahi pakda! 💸",
+    hintWrong: 'Arre nahi, wahi wala nahi tha 😂',
+    hintRight: 'Hahaha bilkul sahi pakda! 💸',
   },
 ];
 
 const ROAST_CARDS = [
   {
-    front: "Tu duniya ki sabse zyada attitude wali insaan hai",
-    back: "Isiliye tu kisi ke fake pyaar mein kabhi nahi aati",
+    front: 'Tu duniya ki sabse zyada attitude wali insaan hai',
+    back: 'Isiliye tu kisi ke fake pyaar mein kabhi nahi aati',
   },
   {
-    front: "Teri sarcasm kisi hathiyar se kam nahi",
-    back: "Par usi sarcasm ne mujhe sabse zyada hasaya hai",
+    front: 'Teri sarcasm kisi hathiyar se kam nahi',
+    back: 'Par usi sarcasm ne mujhe sabse zyada hasaya hai',
   },
   {
-    front: "Tu kisi ki bakwaas 2 second bhi bardaasht nahi karti",
-    back: "Isiliye jab tu kisi ko sunti hai, pata chalta hai wo genuine hai",
+    front: 'Tu kisi ki bakwaas 2 second bhi bardaasht nahi karti',
+    back: 'Isiliye jab tu kisi ko sunti hai, pata chalta hai wo genuine hai',
   },
   {
-    front: "Teri taang kheenchne ki fitrat legendary hai",
-    back: "Par jab zarurat padi, sabse pehle khadi bhi tu hoti hai",
+    front: 'Teri taang kheenchne ki fitrat legendary hai',
+    back: 'Par jab zarurat padi, sabse pehle khadi bhi tu hoti hai',
   },
   {
-    front: "Random topics pe behas start karna teri favorite hobby hai",
-    back: "Aur unhe funny note pe khatam karna tera superpower hai",
+    front: 'Random topics pe behas start karna teri favorite hobby hai',
+    back: 'Aur unhe funny note pe khatam karna tera superpower hai',
   },
   {
-    front: "Night drives pe tera vibe kuch alag hi level ka hota hai",
-    back: "Kyunki tab tu sabse zyada real aur unfiltered hoti hai — wahi version best hai",
+    front: 'Night drives pe tera vibe kuch alag hi level ka hota hai',
+    back: 'Kyunki tab tu sabse zyada real aur unfiltered hoti hai — wahi version best hai',
   },
 ];
 
+const LETTER_TEXT = `Akshara,
+
+From the day we became friends, life just got a little brighter, a little louder, and a lot more fun. I built this whole little mystery for one simple reason — to see that smile of yours, because honestly, you deserve every reason to smile.
+
+You're not just a friend, you're the kind of person people wish they had in their corner. Thank you for always showing up, for the laughs, the late-night talks, and for being exactly who you are.
+
+This one's for you, Akshara. Just for you. ✨
+
+Your friend, always,
+Aman`;
+
 export default function App() {
   const [currentScene, setCurrentScene] = useState<
-    'intro' | 'puzzle1' | 'puzzle2' | 'puzzle3' | 'puzzle4' | 'final'
+    'intro' | 'cluelist' | 'puzzle1' | 'puzzle2' | 'puzzle3' | 'puzzle4' | 'final'
   >('intro');
   const [progressIndex, setProgressIndex] = useState<number>(0);
   const [selectedOption, setSelectedOption] = useState<{
@@ -111,8 +118,21 @@ export default function App() {
   const [flippedCards, setFlippedCards] = useState<{ [index: number]: boolean }>(
     {}
   );
+  const [constellationDrawn, setConstellationDrawn] = useState<boolean>(false);
+  const [litStars, setLitStars] = useState<{ [index: number]: boolean }>({});
+  const [typedLetter, setTypedLetter] = useState<string>('');
+  const [thankYouClicked, setThankYouClicked] = useState<boolean>(false);
+  const [isAudioMuted, setIsAudioMuted] = useState<boolean>(false);
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const typingTimerRef = useRef<number | null>(null);
+
+  // Teardown audio on unmount
+  useEffect(() => {
+    return () => {
+      lofiPlayer.stop();
+    };
+  }, []);
 
   // Background starfield effect
   useEffect(() => {
@@ -221,7 +241,25 @@ export default function App() {
     return interval;
   };
 
+  const startTypewriter = () => {
+    let index = 0;
+    if (typingTimerRef.current) clearInterval(typingTimerRef.current);
+    typingTimerRef.current = window.setInterval(() => {
+      index++;
+      setTypedLetter(LETTER_TEXT.slice(0, index));
+      if (index >= LETTER_TEXT.length && typingTimerRef.current) {
+        clearInterval(typingTimerRef.current);
+      }
+    }, 16);
+  };
+
   const handleStartPuzzles = () => {
+    setProgressIndex(0);
+    setCurrentScene('cluelist');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleStartFromClueList = () => {
     setProgressIndex(1);
     setCurrentScene('puzzle1');
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -250,12 +288,23 @@ export default function App() {
           window.scrollTo({ top: 0, behavior: 'smooth' });
           setTimeout(() => {
             setIsBoxOpened(true);
+            lofiPlayer.play();
             launchConfetti();
             startFloatingHearts();
+            setConstellationDrawn(true);
+            const letters = ['A', 'K', 'S', 'H', 'A', 'R', 'A'];
+            letters.forEach((_, idx) => {
+              setTimeout(() => {
+                setLitStars((prev) => ({ ...prev, [idx]: true }));
+              }, 250 * idx + 200);
+            });
             setTimeout(() => {
               setIsPrankShaking(true);
               setPrankStage('wrong');
             }, 1600);
+            setTimeout(() => {
+              startTypewriter();
+            }, 1200);
           }, 400);
         }
       }, 900);
@@ -269,6 +318,11 @@ export default function App() {
         });
       }, 700);
     }
+  };
+
+  const toggleAudioMute = () => {
+    const muted = lofiPlayer.toggleMute();
+    setIsAudioMuted(muted);
   };
 
   const handleFixSystem = () => {
@@ -312,8 +366,23 @@ export default function App() {
       <main>
         {/* SCENE 0 : INTRO */}
         {currentScene === 'intro' && (
-          <section className="scene active" id="scene-intro">
-            <div className="eyebrow">Ek raaz hai tumhare liye</div>
+          <section
+            className="scene active"
+            id="scene-intro"
+            style={{ position: 'relative' }}
+          >
+            <div className="top-corner-icons">
+              <div className="icon-circle">💗</div>
+              <div className="icon-circle">✨</div>
+            </div>
+            <div className="script-lead">A little something for</div>
+            <div className="name-hero">Akshara ♥</div>
+            <div className="name-underline"></div>
+            <p className="lede" style={{ marginBottom: '6px' }}>
+              Kuch cheezein lafzon se nahi,
+              <br />
+              feel karke samajhni padti hain…
+            </p>
             <div className="box-stage">
               <div className="box3d" id="introBox" onClick={handleStartPuzzles}>
                 <div className="face front">
@@ -342,15 +411,76 @@ export default function App() {
                 </div>
               </div>
             </div>
-            <h1 className="display" style={{ fontSize: '2rem' }}>
-              Akshara, ek raaz hai tumhare liye…
-            </h1>
-            <p className="lede">
-              Is mystery ko suljhao, teen chhote clues paar karo, aur ek surprise
-              tumhara intezaar kar raha hai. Taiyaar ho?
-            </p>
-            <button className="btn" onClick={handleStartPuzzles}>
-              Raaz Suljhao →
+            <div className="msg-card">
+              <p style={{ margin: 0 }}>
+                Ek chhota sa mystery box hai…
+                <br />
+                <span className="accent">Sirf tumhare liye.</span>
+              </p>
+            </div>
+            <button className="btn unlock-btn" onClick={handleStartPuzzles}>
+              🔒 Mystery Unlock Karo →
+            </button>
+            <div className="dot-divider">♥</div>
+            <p className="ready-text">Ready for some fun? 😏</p>
+          </section>
+        )}
+
+        {/* SCENE 0.5 : CLUE LIST */}
+        {currentScene === 'cluelist' && (
+          <section className="scene active" id="scene-cluelist">
+            <div className="clue-header">
+              <h1 className="display">Wahh! Tumne box khol diya ✨</h1>
+              <p>
+                Par asli surprise tak pahunchne ke liye,
+                <br />
+                <span className="accent">4 clues</span> dhoondne honge.
+              </p>
+            </div>
+            <div className="clue-list">
+              <div className="clue-row">
+                <div className="clue-num">01</div>
+                <div className="clue-icon">🧩</div>
+                <div className="clue-text">
+                  Hum dost kaise bane —<br />
+                  <span className="sub">yaadon ka pehla panna.</span>
+                </div>
+                <div className="clue-arrow">›</div>
+              </div>
+              <div className="clue-row">
+                <div className="clue-num">02</div>
+                <div className="clue-icon">🌙</div>
+                <div className="clue-text">
+                  Raat 2 baje ka mood —<br />
+                  <span className="sub">thoda sa raaz hai isme.</span>
+                </div>
+                <div className="clue-arrow">›</div>
+              </div>
+              <div className="clue-row">
+                <div className="clue-num">03</div>
+                <div className="clue-icon">🎧</div>
+                <div className="clue-text">
+                  Kaano mein basne wala naam —<br />
+                  <span className="sub">tumhare favourite ka pata.</span>
+                </div>
+                <div className="clue-arrow">›</div>
+              </div>
+              <div className="clue-row">
+                <div className="clue-num">04</div>
+                <div className="clue-icon">💸</div>
+                <div className="clue-text">
+                  Ek chhota sa kissa —<br />
+                  <span className="sub">jo hamesha yaad rahega.</span>
+                </div>
+                <div className="clue-arrow">›</div>
+              </div>
+            </div>
+            <button
+              className="btn"
+              style={{ width: '100%' }}
+              onClick={handleStartFromClueList}
+            >
+              Clues Solve Karte Hain →
             </button>
           </section>
         )}
@@ -513,7 +643,28 @@ export default function App() {
             className={`scene active ${isBoxOpened ? 'opened' : ''}`}
             id="scene-final"
           >
-            <div className="eyebrow">Mubarak ho, Akshara 🎉</div>
+            <div className="surprise-header">
+              <div className="eyebrow">You did it, Akshara 🎉</div>
+              <div className="script-lead">Yeh lo… tumhara</div>
+              <div className="big-word">SURPRISE! ♥</div>
+              <div
+                className="lofi-audio-pill"
+                onClick={toggleAudioMute}
+                title="Toggle soft background lo-fi music"
+                role="button"
+                tabIndex={0}
+              >
+                <span>{isAudioMuted ? '🔇' : '🎵'}</span>
+                <span>{isAudioMuted ? 'Lo-Fi: Muted' : 'Lo-Fi Track: Playing'}</span>
+                <div className="lofi-equalizer" aria-hidden="true">
+                  <span className={`lofi-bar ${isAudioMuted ? 'muted' : ''}`}></span>
+                  <span className={`lofi-bar ${isAudioMuted ? 'muted' : ''}`}></span>
+                  <span className={`lofi-bar ${isAudioMuted ? 'muted' : ''}`}></span>
+                  <span className={`lofi-bar ${isAudioMuted ? 'muted' : ''}`}></span>
+                </div>
+              </div>
+            </div>
+
             <div className="box-stage" style={{ marginBottom: '10px' }}>
               <div className="burst"></div>
               <div className="box3d">
@@ -547,6 +698,28 @@ export default function App() {
             <h1 className="display" style={{ fontSize: '2rem' }}>
               Tumne raaz suljha liya! 💜
             </h1>
+
+            {/* AKSHARA Name Constellation */}
+            <div className="constellation-wrap">
+              <div className="constellation-label">
+                Sitaron ne mil kar ek naam banaya...
+              </div>
+              <div
+                className={`constellation-track ${
+                  constellationDrawn ? 'drawn' : ''
+                }`}
+                id="constellationTrack"
+              >
+                {['A', 'K', 'S', 'H', 'A', 'R', 'A'].map((letter, idx) => (
+                  <span
+                    key={idx}
+                    className={`name-star ${litStars[idx] ? 'lit' : ''}`}
+                  >
+                    {letter}
+                  </span>
+                ))}
+              </div>
+            </div>
 
             {/* Cute Cat Mascot */}
             <div className="cat-wrap">
@@ -628,27 +801,39 @@ export default function App() {
             </div>
 
             <div className="card" style={{ textAlign: 'left' }}>
-              {/* EDIT HERE: FINAL LETTER — apna message yahan likho */}
-              <div className="letter">
-                Akshara,
-                {'\n\n'}
-                From the day we became friends, life just got a little brighter,
-                a little louder, and a lot more fun. I built this whole little
-                mystery for one simple reason — to see that smile of yours,
-                because honestly, you deserve every reason to smile.
-                {'\n\n'}
-                You're not just a friend, you're the kind of person people wish
-                they had in their corner. Thank you for always showing up, for
-                the laughs, the late-night talks, and for being exactly who you
-                are.
-                {'\n\n'}
-                This one's for you, Akshara. Just for you. ✨
-                {'\n\n'}
-                Your friend, always,
-                {'\n'}
-                Aman
+              {/* EDIT HERE: FINAL LETTER — typewriter effect */}
+              <div className="letter" id="letterText">
+                {typedLetter || LETTER_TEXT}
               </div>
             </div>
+
+            {/* Final Polaroid */}
+            <div className="final-polaroid">
+              <div className="ph-inner">🎁</div>
+              <span className="caption">Hope you like it! 🤍</span>
+            </div>
+
+            {/* Closing Card */}
+            <div className="closing-card">
+              <div className="heart-icon">💗</div>
+              <p>
+                Bas itna hi…{' '}
+                <span className="accent">zyada emotional hone ki zarurat nahi hai</span>{' '}
+                😅
+                <br />
+                Enjoy your surprise! ✨
+              </p>
+            </div>
+
+            {/* Thank You CTA Button */}
+            <button
+              className="btn"
+              style={{ width: '100%' }}
+              disabled={thankYouClicked}
+              onClick={() => setThankYouClicked(true)}
+            >
+              {thankYouClicked ? 'Yayy! 🥹💜' : 'Yay! Thank You 🥹'}
+            </button>
 
             <footer className="note">Made with 💜 just for you</footer>
           </section>

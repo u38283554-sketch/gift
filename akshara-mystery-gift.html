@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 <title>Akshara Ke Liye Ek Raaz ✨</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600;1,700&family=Poppins:wght@300;400;500;600&family=Space+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600;1,700&family=Poppins:wght@300;400;500;600&family=Space+Mono&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
 <!--
 ============================================================
  CUSTOMIZE KAREIN — sab jagah "EDIT HERE" dhoondo (Ctrl+F)
@@ -187,7 +187,177 @@ line-height:1.7;
 margin:14px auto 28px;
 max-width:440px;
 }
-/* ---------- puzzle card ---------- */
+/* ---------- Redesigned intro ---------- */
+.top-corner-icons{
+position:absolute;
+top:0; left:0; right:0;
+display:flex;
+justify-content:space-between;
+padding:0 4px;
+}
+.icon-circle{
+width:42px; height:42px;
+border-radius:50%;
+background:rgba(255,255,255,0.06);
+border:1px solid rgba(255,255,255,0.15);
+display:flex; align-items:center; justify-content:center;
+font-size:1.1rem;
+}
+.script-lead{
+font-family:'Dancing Script', cursive;
+font-size:1.3rem;
+color:var(--text-dim);
+margin-bottom:2px;
+}
+.name-hero{
+font-family:'Dancing Script', cursive;
+font-weight:700;
+font-size:3.4rem;
+line-height:1.1;
+background:linear-gradient(90deg,var(--pink),var(--purple));
+-webkit-background-clip:text;
+background-clip:text;
+color:transparent;
+margin-bottom:6px;
+}
+.name-underline{
+width:90px;
+height:2px;
+margin:0 auto 18px;
+background:linear-gradient(90deg,transparent,var(--pink),transparent);
+}
+.msg-card{
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.15);
+border-radius:18px;
+padding:16px 20px;
+margin:22px 0 20px;
+}
+.msg-card .accent{ color:var(--pink); font-weight:600; }
+.unlock-btn{
+width:100%;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:10px;
+}
+.ready-text{
+margin-top:20px;
+color:var(--text-dim);
+font-size:0.85rem;
+}
+.dot-divider{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:10px;
+margin:18px 0 6px;
+color:rgba(255,255,255,0.25);
+font-size:0.75rem;
+}
+.dot-divider::before, .dot-divider::after{
+content:'';
+flex:1;
+height:1px;
+background:rgba(255,255,255,0.15);
+max-width:60px;
+}
+/* ---------- Clue list screen ---------- */
+.clue-header{
+margin-bottom:26px;
+}
+.clue-header .display{ font-size:1.5rem; margin-bottom:6px; }
+.clue-header p{ color:var(--text-dim); font-size:0.9rem; line-height:1.6; }
+.clue-header .accent{ color:var(--pink); font-weight:600; }
+.clue-list{
+display:flex;
+flex-direction:column;
+gap:12px;
+margin-bottom:26px;
+}
+.clue-row{
+display:flex;
+align-items:center;
+gap:14px;
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.12);
+border-radius:16px;
+padding:14px 16px;
+text-align:left;
+}
+.clue-num{
+width:34px; height:34px;
+flex-shrink:0;
+border-radius:50%;
+background:linear-gradient(135deg,var(--pink),var(--purple));
+display:flex; align-items:center; justify-content:center;
+font-family:'Space Mono', monospace;
+font-weight:700;
+font-size:0.8rem;
+color:#fff;
+}
+.clue-icon{ font-size:1.1rem; flex-shrink:0; }
+.clue-text{ font-size:0.88rem; color:var(--text-light); line-height:1.4; }
+.clue-text .sub{ color:var(--gold); font-size:0.8rem; }
+.clue-arrow{ margin-left:auto; color:var(--text-dim); }
+
+/* ---------- Surprise header + closing polaroid CTA ---------- */
+.surprise-header{
+margin-bottom:8px;
+}
+.surprise-header .script-lead{ font-size:1.6rem; }
+.surprise-header .big-word{
+font-family:'Playfair Display', serif;
+font-weight:700;
+font-style:italic;
+font-size:2.2rem;
+background:linear-gradient(90deg,var(--pink),var(--gold));
+-webkit-background-clip:text;
+background-clip:text;
+color:transparent;
+}
+.final-polaroid{
+background:#fff;
+padding:14px 14px 34px;
+border-radius:8px;
+max-width:220px;
+margin:24px auto 10px;
+box-shadow:0 16px 34px rgba(0,0,0,0.4);
+transform:rotate(-2deg);
+}
+.final-polaroid .ph-inner{
+aspect-ratio:1/1;
+border-radius:4px;
+background:radial-gradient(circle, rgba(255,95,162,0.5), rgba(168,85,247,0.6));
+display:flex; align-items:center; justify-content:center;
+font-size:2.6rem;
+}
+.final-polaroid .caption{
+display:block;
+text-align:center;
+margin-top:10px;
+font-family:'Dancing Script', cursive;
+font-size:1.1rem;
+color:#555;
+}
+.closing-card{
+display:flex;
+align-items:flex-start;
+gap:12px;
+text-align:left;
+margin:22px 0;
+}
+.closing-card .heart-icon{
+width:36px;height:36px;
+flex-shrink:0;
+border-radius:50%;
+background:rgba(255,95,162,0.15);
+display:flex;align-items:center;justify-content:center;
+font-size:1rem;
+}
+.closing-card p{ font-size:0.9rem; line-height:1.6; color:var(--text-light); }
+.closing-card .accent{ color:var(--pink); font-weight:600; }
+
 .card{
 background:rgba(255,255,255,0.05);
 border:1px solid rgba(255,255,255,0.15);
@@ -225,27 +395,6 @@ font-size:0.85rem;
 color:var(--gold);
 min-height:20px;
 }
-/* stars mini-game (puzzle 3) */
-.star-field{
-position:relative;
-width:100%;
-height:220px;
-margin-top:20px;
-border:1px dashed rgba(255,255,255,0.2);
-border-radius:16px;
-}
-.star-target{
-position:absolute;
-width:34px;height:34px;
-display:flex;align-items:center;justify-content:center;
-font-size:1.3rem;
-cursor:pointer;
--webkit-tap-highlight-color:transparent;
-filter:drop-shadow(0 0 10px rgba(255,214,102,0.7));
-transition:transform .2s ease;
-}
-.star-target:hover{transform:scale(1.25);}
-.star-target.hit{opacity:0.25; pointer-events:none;}
 /* ---------- final reveal ---------- */
 #scene-final .box3d{animation:none; transform:rotateY(-20deg) rotateX(6deg);}
 #scene-final .face.top{
@@ -394,6 +543,118 @@ opacity:0.85;
 0%{ transform:translateY(0) translateX(0) rotate(0deg); opacity:0.9; }
 100%{ transform:translateY(-100vh) translateX(var(--drift, 20px)) rotate(25deg); opacity:0; }
 }
+
+/* ---------- AKSHARA name constellation ---------- */
+.constellation-wrap{
+margin:22px 0 26px;
+}
+.constellation-label{
+text-align:center;
+color:var(--text-dim);
+font-size:0.8rem;
+margin-bottom:14px;
+}
+.constellation-track{
+position:relative;
+height:44px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 4px;
+}
+.constellation-track::before{
+content:'';
+position:absolute;
+left:4px; right:4px; top:50%;
+height:2px;
+background:rgba(255,255,255,0.12);
+transform:translateY(-50%);
+}
+.constellation-track::after{
+content:'';
+position:absolute;
+left:4px; top:50%;
+height:2px;
+width:0%;
+background:linear-gradient(90deg,var(--gold),var(--pink));
+box-shadow:0 0 10px var(--gold);
+transform:translateY(-50%);
+transition:width 2.2s ease;
+}
+.constellation-track.drawn::after{ width:calc(100% - 8px); }
+.name-star{
+width:32px; height:32px;
+border-radius:50%;
+background:rgba(255,255,255,0.06);
+border:1px solid rgba(255,255,255,0.25);
+display:flex; align-items:center; justify-content:center;
+font-family:'Space Mono', monospace;
+font-weight:700;
+font-size:0.85rem;
+color:var(--text-dim);
+opacity:0.35;
+transform:scale(0.6);
+transition:all .4s ease;
+position:relative;
+z-index:2;
+}
+.name-star.lit{
+opacity:1;
+transform:scale(1.15);
+background:radial-gradient(circle, var(--gold), var(--pink));
+color:#170b2e;
+box-shadow:0 0 18px var(--gold);
+}
+
+/* ---------- Lo-fi Audio Player Badge ---------- */
+.lofi-audio-pill {
+display:inline-flex;
+align-items:center;
+gap:8px;
+background:rgba(255,255,255,0.08);
+border:1px solid rgba(255,95,162,0.35);
+border-radius:20px;
+padding:6px 14px;
+margin:6px auto 14px;
+cursor:pointer;
+backdrop-filter:blur(8px);
+box-shadow:0 4px 16px rgba(168,85,247,0.2);
+transition:all 0.25s ease;
+font-family:'Space Mono', monospace;
+font-size:0.72rem;
+color:var(--gold);
+}
+.lofi-audio-pill:hover {
+background:rgba(255,255,255,0.14);
+border-color:var(--pink);
+transform:translateY(-1px);
+}
+.lofi-equalizer {
+display:flex;
+align-items:flex-end;
+gap:2px;
+height:12px;
+}
+.lofi-bar {
+width:2.5px;
+background:linear-gradient(180deg, var(--gold), var(--pink));
+border-radius:2px;
+animation:equalize 1s ease-in-out infinite alternate;
+}
+.lofi-bar:nth-child(1) { height:40%; animation-delay:0.1s; }
+.lofi-bar:nth-child(2) { height:80%; animation-delay:0.3s; }
+.lofi-bar:nth-child(3) { height:60%; animation-delay:0.2s; }
+.lofi-bar:nth-child(4) { height:100%; animation-delay:0.4s; }
+@keyframes equalize {
+0% { height:25%; }
+100% { height:100%; }
+}
+.lofi-bar.muted {
+animation:none;
+height:25%;
+background:var(--text-dim);
+}
+
 .flip-inner{
 position:relative;
 width:100%;
@@ -517,8 +778,15 @@ color:rgba(255,255,255,0.35);
 </div>
 <main>
  <!-- SCENE 0 : INTRO -->
- <section class="scene active" id="scene-intro">
- <div class="eyebrow">Ek raaz hai tumhare liye</div>
+ <section class="scene active" id="scene-intro" style="position:relative;">
+ <div class="top-corner-icons">
+ <div class="icon-circle">💗</div>
+ <div class="icon-circle">✨</div>
+ </div>
+ <div class="script-lead">A little something for</div>
+ <div class="name-hero">Akshara ♥</div>
+ <div class="name-underline"></div>
+ <p class="lede" style="margin-bottom:6px;">Kuch cheezein lafzon se nahi,<br>feel karke samajhni padti hain…</p>
  <div class="box-stage">
  <div class="box3d" id="introBox">
  <div class="face front"><div class="ribbon-v"></div><div class="ribbon-h"></div></div>
@@ -529,10 +797,49 @@ color:rgba(255,255,255,0.35);
  <div class="face bottom"><div class="ribbon-v"></div><div class="ribbon-h"></div></div>
  </div>
  </div>
- <h1 class="display" style="font-size:2rem;">Akshara, ek raaz hai tumhare liye…</h1>
- <p class="lede">Is mystery ko suljhao, teen chhote clues paar karo, aur ek surprise tumhara intezaar kar raha hai. Taiyaar ho?</p>
- <button class="btn" onclick="goTo('scene-puzzle1')">Raaz Suljhao →</button>
+ <div class="msg-card">
+ <p style="margin:0;">Ek chhota sa mystery box hai…<br><span class="accent">Sirf tumhare liye.</span></p>
+ </div>
+ <button class="btn unlock-btn" onclick="goTo('scene-cluelist')">🔒 Mystery Unlock Karo →</button>
+ <div class="dot-divider">♥</div>
+ <p class="ready-text">Ready for some fun? 😏</p>
  </section>
+
+ <!-- SCENE 0.5 : CLUE LIST -->
+ <section class="scene" id="scene-cluelist">
+ <div class="clue-header">
+ <h1 class="display">Wahh! Tumne box khol diya ✨</h1>
+ <p>Par asli surprise tak pahunchne ke liye,<br><span class="accent">4 clues</span> dhoondne honge.</p>
+ </div>
+ <div class="clue-list">
+ <div class="clue-row">
+ <div class="clue-num">01</div>
+ <div class="clue-icon">🧩</div>
+ <div class="clue-text">Hum dost kaise bane —<br><span class="sub">yaadon ka pehla panna.</span></div>
+ <div class="clue-arrow">›</div>
+ </div>
+ <div class="clue-row">
+ <div class="clue-num">02</div>
+ <div class="clue-icon">🌙</div>
+ <div class="clue-text">Raat 2 baje ka mood —<br><span class="sub">thoda sa raaz hai isme.</span></div>
+ <div class="clue-arrow">›</div>
+ </div>
+ <div class="clue-row">
+ <div class="clue-num">03</div>
+ <div class="clue-icon">🎧</div>
+ <div class="clue-text">Kaano mein basne wala naam —<br><span class="sub">tumhare favourite ka pata.</span></div>
+ <div class="clue-arrow">›</div>
+ </div>
+ <div class="clue-row">
+ <div class="clue-num">04</div>
+ <div class="clue-icon">💸</div>
+ <div class="clue-text">Ek chhota sa kissa —<br><span class="sub">jo hamesha yaad rahega.</span></div>
+ <div class="clue-arrow">›</div>
+ </div>
+ </div>
+ <button class="btn" style="width:100%;" onclick="goTo('scene-puzzle1'); updateProgress(1);">Clues Solve Karte Hain →</button>
+ </section>
+
  <!-- SCENE 1 : PUZZLE 1 -->
  <section class="scene" id="scene-puzzle1">
  <div class="eyebrow">Clue 01 / 04</div>
@@ -543,6 +850,7 @@ color:rgba(255,255,255,0.35);
  <div class="hint" id="p1-hint"></div>
  </div>
  </section>
+
  <!-- SCENE 2 : PUZZLE 2 -->
  <section class="scene" id="scene-puzzle2">
  <div class="eyebrow">Clue 02 / 04</div>
@@ -552,6 +860,7 @@ color:rgba(255,255,255,0.35);
  <div class="hint" id="p2-hint"></div>
  </div>
  </section>
+
  <!-- SCENE 3 : PUZZLE 3 -->
  <section class="scene" id="scene-puzzle3">
  <div class="eyebrow">Clue 03 / 04</div>
@@ -561,6 +870,7 @@ color:rgba(255,255,255,0.35);
  <div class="hint" id="p3-hint"></div>
  </div>
  </section>
+
  <!-- SCENE 4 : PUZZLE 4 -->
  <section class="scene" id="scene-puzzle4">
  <div class="eyebrow">Clue 04 / 04</div>
@@ -570,9 +880,24 @@ color:rgba(255,255,255,0.35);
  <div class="hint" id="p4-hint"></div>
  </div>
  </section>
+
  <!-- SCENE 4 : FINAL REVEAL -->
  <section class="scene" id="scene-final">
- <div class="eyebrow">Mubarak ho, Akshara 🎉</div>
+ <div class="surprise-header">
+ <div class="eyebrow">You did it, Akshara 🎉</div>
+ <div class="script-lead">Yeh lo… tumhara</div>
+ <div class="big-word">SURPRISE! ♥</div>
+ <div class="lofi-audio-pill" id="lofiAudioToggle" title="Toggle background lo-fi music">
+   <span id="lofiIcon">🎵</span>
+   <span id="lofiStatus">Lo-Fi Track: Playing</span>
+   <div class="lofi-equalizer" aria-hidden="true">
+     <span class="lofi-bar"></span>
+     <span class="lofi-bar"></span>
+     <span class="lofi-bar"></span>
+     <span class="lofi-bar"></span>
+   </div>
+ </div>
+ </div>
  <div class="box-stage" style="margin-bottom:10px;">
  <div class="burst"></div>
  <div class="box3d">
@@ -585,6 +910,18 @@ color:rgba(255,255,255,0.35);
  </div>
  </div>
  <h1 class="display" style="font-size:2rem;">Tumne raaz suljha liya! 💜</h1>
+ <div class="constellation-wrap">
+ <div class="constellation-label">Sitaron ne mil kar ek naam banaya...</div>
+ <div class="constellation-track" id="constellationTrack">
+ <span class="name-star">A</span>
+ <span class="name-star">K</span>
+ <span class="name-star">S</span>
+ <span class="name-star">H</span>
+ <span class="name-star">A</span>
+ <span class="name-star">R</span>
+ <span class="name-star">A</span>
+ </div>
+ </div>
  <div class="cat-wrap">
  <div class="cat-emoji">🐱</div>
  <div class="cat-bubble">yayy tumne kar diya! 🐾</div>
@@ -641,18 +978,18 @@ color:rgba(255,255,255,0.35);
  </div>
  </div>
  <div class="card" style="text-align:left;">
- <!-- EDIT HERE: FINAL LETTER — apna message yahan likho -->
- <div class="letter">Akshara,
-
-From the day we became friends, life just got a little brighter, a little louder, and a lot more fun. I built this whole little mystery for one simple reason — to see that smile of yours, because honestly, you deserve every reason to smile.
-
-You're not just a friend, you're the kind of person people wish they had in their corner. Thank you for always showing up, for the laughs, the late-night talks, and for being exactly who you are.
-
-This one's for you, Akshara. Just for you. ✨
-
-Your friend, always,
-Aman</div>
+ <!-- EDIT HERE: FINAL LETTER — text is set in the LETTER_TEXT variable in the script below -->
+ <div class="letter" id="letterText"></div>
  </div>
+ <div class="final-polaroid">
+ <div class="ph-inner">🎁</div>
+ <span class="caption">Hope you like it! 🤍</span>
+ </div>
+ <div class="closing-card">
+ <div class="heart-icon">💗</div>
+ <p>Bas itna hi… <span class="accent">zyada emotional hone ki zarurat nahi hai</span> 😅<br>Enjoy your surprise! ✨</p>
+ </div>
+ <button class="btn" style="width:100%;" onclick="this.textContent='Yayy! 🥹💜'; this.disabled=true;">Yay! Thank You 🥹</button>
  <footer class="note">Made with 💜 just for you</footer>
  </section>
 </main>
@@ -664,23 +1001,28 @@ Aman</div>
 ========================================================= */
 const PUZZLES = [
  {
- question: "Hum dono pehli baar kaise dost bane the?",
- options: ["School/College mein saath baithne se", "Common friend ke through", "Social media par", "Kisi party mein"],
- correctIndex: 2,
+ question: "Akshara kisi ko compliment kaise deti hai?",
+ options: [
+ "Seedha bol deti hai, bina lag lapet ke",
+ "Taane maar ke, par matlab genuine hota hai",
+ "Bilkul nahi deti, actions se dikhati hai",
+ "Sirf close logo ko hi deti hai"
+ ],
+ correctIndex: 1,
  hintWrong: "Nahi... thoda aur socho 🤔",
  hintRight: "Bilkul sahi! ✨"
  },
  {
- question: "Raat 2 baje Akshara sabse zyada kya karna pasand karegi?",
+ question: "Jab Akshara gussa hoti hai, sabse pehle kya karti hai?",
  options: [
- "Long drive pe nikal jana",
- "Random topic pe bahes chhedna",
- "Ghanto bina filter ke baatein karna",
- "Sabko ignore karke so jana"
+ "Silent treatment de deti hai",
+ "Seedha sunaa deti hai",
+ "Sarcastic taane maarti hai",
+ "Ignore kar deti hai"
  ],
- correctIndex: 3,
- hintWrong: "Kuch aur try karo 😉",
- hintRight: "Yehi toh magic hai humari dosti ka! 🌟"
+ correctIndex: 2,
+ hintWrong: "Nahi yaar, aur socho 😏",
+ hintRight: "Bilkul sahi pakda! 🎯"
  },
  {
  question: "Akshara ka favourite singer kaun hai?",
@@ -724,8 +1066,7 @@ window.updateProgress = updateProgress;
 const introBox = document.getElementById('introBox');
 if(introBox) {
  introBox.addEventListener('click', ()=>{
- updateProgress(1);
- goTo('scene-puzzle1');
+ goTo('scene-cluelist');
  });
 }
 function renderPuzzle(num){
@@ -752,7 +1093,6 @@ function renderPuzzle(num){
  goTo('scene-puzzle'+(num+1));
  renderPuzzle(num+1);
  } else {
- updateProgress(5);
  goTo('scene-final');
  openFinalBox();
  }
@@ -769,16 +1109,218 @@ function renderPuzzle(num){
 }
 renderPuzzle(1);
 
+/* EDIT HERE: FINAL LETTER TEXT — change this message as you like */
+const LETTER_TEXT = `Akshara,
+
+From the day we became friends, life just got a little brighter, a little louder, and a lot more fun. I built this whole little mystery for one simple reason — to see that smile of yours, because honestly, you deserve every reason to smile.
+
+You're not just a friend, you're the kind of person people wish they had in their corner. Thank you for always showing up, for the laughs, the late-night talks, and for being exactly who you are.
+
+This one's for you, Akshara. Just for you. ✨
+
+Your friend, always,
+Aman`;
+
+function typeLetter(){
+ const el = document.getElementById('letterText');
+ if(!el || el.dataset.typed === '1') return;
+ el.dataset.typed = '1';
+ el.textContent = '';
+ let i = 0;
+ function step(){
+ if(i <= LETTER_TEXT.length){
+ el.textContent = LETTER_TEXT.slice(0, i);
+ i++;
+ setTimeout(step, 16);
+ }
+ }
+ step();
+}
+
+/* Start typewriter only once the letter scrolls into view */
+const letterObserver = new IntersectionObserver((entries)=>{
+ entries.forEach(entry=>{
+ if(entry.isIntersecting){
+ typeLetter();
+ letterObserver.unobserve(entry.target);
+ }
+ });
+}, {threshold:0.25});
+
+window.addEventListener('load', ()=>{
+ const letterEl = document.getElementById('letterText');
+ if(letterEl) letterObserver.observe(letterEl);
+});
+
+function revealNameConstellation(){
+ const track = document.getElementById('constellationTrack');
+ if(!track) return;
+ track.classList.add('drawn');
+ document.querySelectorAll('.name-star').forEach((s,i)=>{
+ setTimeout(()=> s.classList.add('lit'), 250*i + 200);
+ });
+}
+
 /* ---------- Final box opening + confetti ---------- */
 function openFinalBox(){
  const scene = document.getElementById('scene-final');
  setTimeout(()=>{
  if(scene) scene.classList.add('opened');
+ playLofiRomanticTrack();
  launchConfetti();
  startPrank();
  startFloatingHearts();
+ revealNameConstellation();
+ setTimeout(()=>{
+ const letterEl = document.getElementById('letterText');
+ if(letterEl) typeLetter();
+ }, 1200);
  }, 400);
 }
+
+/* ---------- Soft Lo-Fi Romantic Background Audio Engine ---------- */
+let audioCtx = null;
+let masterGain = null;
+let lofiInterval = null;
+let isAudioMuted = false;
+let lofiPlaying = false;
+let lofiStep = 0;
+
+const lofiChords = [
+  { bass: 87.31, notes: [220.0, 261.63, 329.63, 392.0] },
+  { bass: 82.41, notes: [196.0, 246.94, 293.66, 392.0] },
+  { bass: 73.42, notes: [174.61, 220.0, 261.63, 329.63] },
+  { bass: 65.41, notes: [196.0, 246.94, 293.66, 329.63] }
+];
+
+const lofiMelodies = [
+  [523.25, 659.25, 783.99, 880.0],
+  [587.33, 739.99, 880.0, 987.77],
+  [440.0, 523.25, 659.25, 783.99],
+  [523.25, 659.25, 880.0, 1046.5]
+];
+
+function initAudio() {
+  if (!audioCtx) {
+    const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+    audioCtx = new AudioCtxClass();
+    masterGain = audioCtx.createGain();
+    masterGain.gain.setValueAtTime(0.35, audioCtx.currentTime);
+    masterGain.connect(audioCtx.destination);
+  }
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+}
+
+function playLofiChord(idx) {
+  if (!audioCtx || !masterGain || isAudioMuted) return;
+  const now = audioCtx.currentTime;
+  const chord = lofiChords[idx % lofiChords.length];
+
+  const bassOsc = audioCtx.createOscillator();
+  const bassGain = audioCtx.createGain();
+  bassOsc.type = 'sine';
+  bassOsc.frequency.setValueAtTime(chord.bass, now);
+  bassGain.gain.setValueAtTime(0.001, now);
+  bassGain.gain.linearRampToValueAtTime(0.18, now + 0.15);
+  bassGain.gain.exponentialRampToValueAtTime(0.0001, now + 3.6);
+  bassOsc.connect(bassGain);
+  bassGain.connect(masterGain);
+  bassOsc.start(now);
+  bassOsc.stop(now + 3.8);
+
+  chord.notes.forEach((freq, nIdx) => {
+    const osc1 = audioCtx.createOscillator();
+    const osc2 = audioCtx.createOscillator();
+    const nGain = audioCtx.createGain();
+    const filter = audioCtx.createBiquadFilter();
+
+    osc1.type = 'sine';
+    osc2.type = 'triangle';
+    osc1.frequency.setValueAtTime(freq, now);
+    osc2.frequency.setValueAtTime(freq * 1.002, now);
+
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(650 + nIdx * 40, now);
+
+    const stagger = nIdx * 0.04;
+    const start = now + stagger;
+    nGain.gain.setValueAtTime(0.0001, start);
+    nGain.gain.linearRampToValueAtTime(0.06, start + 0.12);
+    nGain.gain.exponentialRampToValueAtTime(0.0001, start + 3.5);
+
+    osc1.connect(filter);
+    osc2.connect(filter);
+    filter.connect(nGain);
+    nGain.connect(masterGain);
+
+    osc1.start(start);
+    osc2.start(start);
+    osc1.stop(start + 3.6);
+    osc2.stop(start + 3.6);
+  });
+
+  const melody = lofiMelodies[idx % lofiMelodies.length];
+  melody.forEach((mFreq, mIdx) => {
+    const chimeTime = now + 0.6 + mIdx * 0.65;
+    const chimeOsc = audioCtx.createOscillator();
+    const chimeGain = audioCtx.createGain();
+    const chimeFilter = audioCtx.createBiquadFilter();
+
+    chimeOsc.type = 'sine';
+    chimeOsc.frequency.setValueAtTime(mFreq, chimeTime);
+    chimeFilter.type = 'bandpass';
+    chimeFilter.frequency.setValueAtTime(mFreq, chimeTime);
+    chimeFilter.Q.setValueAtTime(3.0, chimeTime);
+
+    chimeGain.gain.setValueAtTime(0.0001, chimeTime);
+    chimeGain.gain.linearRampToValueAtTime(0.045, chimeTime + 0.02);
+    chimeGain.gain.exponentialRampToValueAtTime(0.0001, chimeTime + 1.2);
+
+    chimeOsc.connect(chimeFilter);
+    chimeFilter.connect(chimeGain);
+    chimeGain.connect(masterGain);
+
+    chimeOsc.start(chimeTime);
+    chimeOsc.stop(chimeTime + 1.3);
+  });
+}
+
+function playLofiRomanticTrack() {
+  initAudio();
+  if (lofiPlaying) return;
+  lofiPlaying = true;
+  lofiStep = 0;
+  playLofiChord(lofiStep);
+  lofiStep++;
+  lofiInterval = setInterval(() => {
+    playLofiChord(lofiStep);
+    lofiStep++;
+  }, 3400);
+}
+
+function toggleLofiAudio() {
+  initAudio();
+  isAudioMuted = !isAudioMuted;
+  if (masterGain && audioCtx) {
+    masterGain.gain.setValueAtTime(isAudioMuted ? 0 : 0.35, audioCtx.currentTime);
+  }
+  const icon = document.getElementById('lofiIcon');
+  const status = document.getElementById('lofiStatus');
+  const bars = document.querySelectorAll('.lofi-bar');
+  if (icon) icon.textContent = isAudioMuted ? '🔇' : '🎵';
+  if (status) status.textContent = isAudioMuted ? 'Lo-Fi: Muted' : 'Lo-Fi Track: Playing';
+  bars.forEach(b => {
+    if (isAudioMuted) b.classList.add('muted');
+    else b.classList.remove('muted');
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const toggleBtn = document.getElementById('lofiAudioToggle');
+  if (toggleBtn) toggleBtn.addEventListener('click', toggleLofiAudio);
+});
 let heartsInterval = null;
 function startFloatingHearts(){
  const items = ['💗','✨','💜','🌸','⭐'];
